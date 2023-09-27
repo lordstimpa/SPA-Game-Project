@@ -1,41 +1,79 @@
-import React, { Component } from 'react';
-import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
-import { Link } from 'react-router-dom';
-import './NavMenu.css';
+import React, { Component } from "react";
+import Styled from "styled-components";
+import { Link } from "react-router-dom";
+
+const Main = Styled.div`
+  display: flex;
+  flex-direction: column;
+
+  & .Banner {
+    margin: 1.5rem;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & h1 {
+    }
+  }
+
+  & .Nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: #000;
+
+    & div {
+      margin: 1.5rem 3rem;
+      font-size: 1.3rem;
+
+      & .Link {
+        text-decoration: none;
+        color: #fff;
+      }
+
+      & #Login, #Create {
+        border-radius: 1rem;
+        border: 2px solid #fff;
+        padding: 0.6rem;
+      }
+
+      & #Login {
+        margin-right: 2rem;
+      }
+
+      & #Create {
+        
+      }
+    }
+  }
+`;
 
 export class NavMenu extends Component {
   static displayName = NavMenu.name;
 
-  constructor (props) {
-    super(props);
-
-    this.toggleNavbar = this.toggleNavbar.bind(this);
-    this.state = {
-      collapsed: true
-    };
-  }
-
-  toggleNavbar () {
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
-  }
-
   render() {
     return (
-      <header>
-        <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" container light>
-          <NavbarBrand tag={Link} to="/">SPAG</NavbarBrand>
-          <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
-          <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
-            <ul className="navbar-nav flex-grow">
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
-              </NavItem>
-            </ul>
-          </Collapse>
-        </Navbar>
-      </header>
+      <Main>
+        <div className="Banner">
+          <h1>-Banner image goes here-</h1>
+        </div>
+        <div className="Nav">
+          <div>
+            <Link to="/" className="Link">
+              Home
+            </Link>
+          </div>
+          <div>
+            <Link to="/login" className="Link" id="Login">
+              Login
+            </Link>
+            <Link to="/create" className="Link" id="Create">
+              Create Account
+            </Link>
+          </div>
+        </div>
+      </Main>
     );
   }
 }

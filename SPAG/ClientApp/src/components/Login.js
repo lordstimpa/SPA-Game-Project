@@ -2,15 +2,16 @@ import React, { Component } from "react";
 import Styled from "styled-components";
 
 const Main = Styled.div`
+    background: red;
 `;
 
-export class Home extends Component {
-  static displayName = Home.name;
+export class Login extends Component {
+  static displayName = Login.name;
 
   render() {
     return (
       <Main>
-        <div>sfdgdfgh</div>
+        <div>LOGIN</div>
       </Main>
     );
   }
