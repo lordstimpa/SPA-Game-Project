@@ -8,9 +8,11 @@ const AppRoutes = [
     element: <Home />,
   },
   {
+    path: "/login",
     element: <Login />,
   },
   {
+    path: "/create",
     element: <Create />,
   },
 ];

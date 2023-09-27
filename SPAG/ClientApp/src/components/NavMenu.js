@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Styled from "styled-components";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Main = Styled.div`
   display: flex;
@@ -60,17 +60,17 @@ export class NavMenu extends Component {
         </div>
         <div className="Nav">
           <div>
-            <Link to="/" className="Link">
+            <NavLink to="/" className="Link">
               Home
-            </Link>
+            </NavLink>
           </div>
           <div>
-            <Link to="/login" className="Link" id="Login">
+            <NavLink to="/login" className="Link" id="Login">
               Login
-            </Link>
-            <Link to="/create" className="Link" id="Create">
+            </NavLink>
+            <NavLink to="/create" className="Link" id="Create">
               Create Account
-            </Link>
+            </NavLink>
           </div>
         </div>
       </Main>
