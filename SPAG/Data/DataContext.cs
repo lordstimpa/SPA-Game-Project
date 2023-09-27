@@ -13,7 +13,7 @@ namespace SPAG.Data
         public DbSet<GameModel> Game { get; set; }
 
 
-        //Use once to genreate data in DB
+        //Use once to genreate data in DB for easy use
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserModel>().HasData(new UserModel[] {
