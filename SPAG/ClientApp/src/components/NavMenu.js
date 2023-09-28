@@ -5,16 +5,11 @@ import { NavLink } from "react-router-dom";
 const Main = Styled.div`
   display: flex;
   flex-direction: column;
+  height: 225px;
 
   & .Banner {
-    margin: 1.5rem;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    & h1 {
-    }
+    height: 100%;
+    background: linear-gradient(90deg, rgba(7,0,120,1) 0%, rgba(76,42,213,1) 50%, rgba(0,212,255,1) 100%);
   }
 
   & .Nav {
@@ -24,8 +19,8 @@ const Main = Styled.div`
     background: #000;
 
     & div {
-      margin: 1.5rem 3rem;
-      font-size: 1.3rem;
+      margin: 1.2rem 3rem;
+      font-size: 1.2rem;
 
       & .Link {
         text-decoration: none;
@@ -33,17 +28,34 @@ const Main = Styled.div`
       }
 
       & #Login, #Create {
-        border-radius: 1rem;
-        border: 2px solid #fff;
-        padding: 0.6rem;
+        border-radius: 0.5rem;
+        padding: 0.4rem 1rem;
+        transition: 0.2s ease-in-out;
+      }
+
+      & #Home {
+        margin-right: 2rem;
       }
 
       & #Login {
         margin-right: 2rem;
+        border: 2px solid #fff;
+        background: #fff;
+        color: #000;
+
+        &:hover {
+          background: #000;
+          color: #fff;
+        }
       }
 
       & #Create {
-        
+        border: 2px solid #fff;
+
+        &:hover {
+          background: #fff;
+          color: #000;
+        }
       }
     }
   }
@@ -55,13 +67,14 @@ export class NavMenu extends Component {
   render() {
     return (
       <Main>
-        <div className="Banner">
-          <h1>-Banner image goes here-</h1>
-        </div>
+        <div className="Banner"></div>
         <div className="Nav">
           <div>
-            <NavLink to="/" className="Link">
+            <NavLink to="/" className="Link" id="Home">
               Home
+            </NavLink>
+            <NavLink to="/" className="Link">
+              Play
             </NavLink>
           </div>
           <div>
