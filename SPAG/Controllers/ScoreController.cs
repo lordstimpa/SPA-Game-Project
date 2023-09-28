@@ -1,39 +1,44 @@
-﻿using SPAG.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using SPAG.Data;
+using SPAG.Models.ViewModels;
 
-namespace SPAG.Data
+namespace SPAG.Controllers
 {
-    public class DataHelper
+    [ApiController, Route("[controller]")]
+    public class ScoreController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public DataHelper(DataContext context)
+        public ScoreController(DataContext context)
         {
             _context = context;
         }
 
-        public List<GameViewModel> GetTopTenOverallGames()
+        [HttpGet("gettoptenoverall")]
+        public List<GameViewModel> GetTopTenOverallScore()
         {
             var games = _context.Game
-            .OrderByDescending(game => game.Score)
             .Select(game => new GameViewModel
             {
                 Score = game.Score,
                 FkUser = game.FkUser,
             })
+            .OrderByDescending(game => game.Score)
             .Take(10)
             .ToList();
 
             return games;
         }
 
-        public List<GameViewModel> GetTopTenUserGames(int userId)
+        [HttpGet("gettoptenuser/{userId}")]
+        public List<GameViewModel> GetTopTenUserScore(int userId)
         {
             var games = _context.Game
                 .Where(game => game.FkUser == userId)
                 .OrderByDescending(game => game.Score)
-                .Select(game => new GameViewModel 
-                { 
-                    Score = game.Score, 
+                .Select(game => new GameViewModel
+                {
+                    Score = game.Score,
                     FkUser = game.FkUser,
                 })
                 .Take(10)

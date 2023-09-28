@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SPAG.Models.ViewModels;
 using SPAG.Models;
 
 namespace SPAG.Data
@@ -10,7 +11,7 @@ namespace SPAG.Data
 
         }
         public DbSet<UserModel> User { get; set; }
-        public DbSet<GameViewModel> Game { get; set; }
+        public DbSet<GameModel> Game { get; set; }
 
 
         //Use once to genreate data in DB for easy use
@@ -22,10 +23,10 @@ namespace SPAG.Data
                 new UserModel{ Id=3, GamerTag="EliteIlyas", UserName="Ilyas" , Password="12345", Description="Im best"}
 
             });
-            modelBuilder.Entity<GameViewModel>().HasData(new GameViewModel[] {
-                new GameViewModel { Id=1, Score=111, FkUser=1},
-                new GameViewModel { Id=2, Score=250, FkUser=2},
-                new GameViewModel { Id=3, Score=2500, FkUser=3},
+            modelBuilder.Entity<GameModel>().HasData(new GameModel[] {
+                new GameModel { Id=1, Score=111, FkUser=1},
+                new GameModel { Id=2, Score=250, FkUser=2},
+                new GameModel { Id=3, Score=2500, FkUser=3},
             });
 
         }
