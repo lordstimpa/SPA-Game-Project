@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SPAG.Models
 {
-    public class GameViewModel
+    public class GameModel
     {
         [Key]
         public int Id { get; set; }

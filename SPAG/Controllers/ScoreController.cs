@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SPAG.Data;
-using SPAG.Models;
+using SPAG.Models.ViewModels;
 
 namespace SPAG.Controllers
 {
@@ -14,23 +14,23 @@ namespace SPAG.Controllers
             _context = context;
         }
 
-        [HttpGet("toptenoverall")]
+        [HttpGet("gettoptenoverall")]
         public List<GameViewModel> GetTopTenOverallScore()
         {
             var games = _context.Game
-            .OrderByDescending(game => game.Score)
             .Select(game => new GameViewModel
             {
                 Score = game.Score,
                 FkUser = game.FkUser,
             })
+            .OrderByDescending(game => game.Score)
             .Take(10)
             .ToList();
 
             return games;
         }
 
-        [HttpGet("toptenuser/{userId}")]
+        [HttpGet("gettoptenuser/{userId}")]
         public List<GameViewModel> GetTopTenUserScore(int userId)
         {
             var games = _context.Game

@@ -8,8 +8,8 @@ const target = env.ASPNETCORE_HTTPS_PORT
   : "http://localhost:37058";
 
 const context = [
-    "/api/score/toptenoverall",
-    "/api/score/toptenoverall"
+    "/score/gettoptenoverall",
+    "/score/gettoptenuser/{userId}"
 ];
 
 module.exports = function (app) {
