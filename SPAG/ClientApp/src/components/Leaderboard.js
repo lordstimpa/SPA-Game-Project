@@ -25,23 +25,18 @@ const Main = Styled.div`
 
 export class Leaderboard extends Component {
   static displayName = Leaderboard.name;
-
+  /*
+  const = {
+    data: scores,
+    isError,
+    isLoading
+    } = GetData("https:/score/gettoptenoverall")
+*/
   render() {
     return (
       <Main>
         <h3>Leaderboard</h3>
-        <div className="Board">
-          <p>blalblalba</p>
-          <p>blalblalba</p>
-          <p>blalblalba</p>
-          <p>blalblalba</p>
-          <p>blalblalba</p>
-          <p>blalblalba</p>
-          <p>blalblalba</p>
-          <p>blalblalba</p>
-          <p>blalblalba</p>
-          <p>blalblalba</p>
-        </div>
+        <div className="Board"></div>
       </Main>
     );
   }

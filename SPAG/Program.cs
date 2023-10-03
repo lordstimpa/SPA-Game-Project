@@ -22,7 +22,6 @@ builder.Services.AddDefaultIdentity<UserModel>(
         options.Password.RequireUppercase = false;
     })
     .AddEntityFrameworkStores<DataContext>();
-builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 

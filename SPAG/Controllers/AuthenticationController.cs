@@ -8,6 +8,7 @@ using System.Security.Claims;
 
 namespace SPAG.Controllers
 {
+    /*
     [ApiController, Route("[controller]"), Authorize]
     public class AuthenticationController : ControllerBase
     {
@@ -42,4 +43,5 @@ namespace SPAG.Controllers
             }
         }
     }
+    */
 }

@@ -3,6 +3,7 @@ using SPAG.Data;
 
 namespace SPAG.Controllers
 {
+    /*
     [ApiController, Route("[controller]")]
     public class UserController : Controller
     {
@@ -13,12 +14,11 @@ namespace SPAG.Controllers
             _context = context;
         }
 
-        /*
         [HttpPost]
         public void PostUser()
         {
             var user = _context
         }
-        */
     }
+    */
 }

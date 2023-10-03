@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace SPAG.Data
 {
-    public class DataContext : IdentityDbContext<UserModel>
+    public class DataContext : IdentityDbContext<UserModel, IdentityRole<int>, int>
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -16,11 +16,14 @@ namespace SPAG.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<UserModel>().HasData(new UserModel[] {
                 new UserModel
                 { 
                     Id = 1,
                     UserName = "Mike123",
+                    GamerTag = "adfsfg",
                     NormalizedUserName = "MIKE123",
                     Email = "mike@example.com",
                     NormalizedEmail = "MIKE@EXAMPLE.COM",
@@ -30,6 +33,7 @@ namespace SPAG.Data
                 new UserModel
                 {
                     Id = 2,
+                    GamerTag = "fitthor",
                     UserName = "David123",
                     NormalizedUserName = "DAVID123",
                     Email = "david@example.com",
@@ -40,6 +44,7 @@ namespace SPAG.Data
                 new UserModel
                 {
                     Id = 3,
+                    GamerTag = "fitthrdgtjhahdfgor",
                     UserName = "Anders123",
                     NormalizedUserName = "ANDERS123",
                     Email = "anders@example.com",
