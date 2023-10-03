@@ -3,7 +3,7 @@ import Styled from "styled-components";
 import { Leaderboard } from "./Leaderboard";
 
 const Main = Styled.div`
-  height: 1056px;
+  min-height: 1056px;
   display: flex;
   flex-direction: row;
   background: #f2f2f2;

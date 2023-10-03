@@ -5,9 +5,16 @@ const target = env.ASPNETCORE_HTTPS_PORT
   ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}`
   : env.ASPNETCORE_URLS
   ? env.ASPNETCORE_URLS.split(";")[0]
-  : "http://localhost:37058";
+  : "http://localhost:34017";
 
-const context = ["/score/gettoptenoverall", "/score/gettoptenuser/{userId}"];
+const context = [
+  "/_configuration",
+  "/.well-known",
+  "/Identity",
+  "/connect",
+  "/ApplyDatabaseMigrations",
+  "/_framework",
+];
 
 module.exports = function (app) {
   const appProxy = createProxyMiddleware(context, {

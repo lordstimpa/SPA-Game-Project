@@ -1,17 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SPAG.Models.ViewModels;
-using SPAG.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Duende.IdentityServer.EntityFramework.Options;
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using SPAG.Models;
 
 namespace SPAG.Data
 {
-    public class DataContext : IdentityDbContext<UserModel, IdentityRole<int>, int>
+    public class ApplicationDbContext : ApiAuthorizationDbContext<UserModel>
     {
-        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        public ApplicationDbContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions)
+            : base(options, operationalStoreOptions)
         {
 
         }
+
         public DbSet<GameModel> Game { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -20,10 +23,10 @@ namespace SPAG.Data
 
             modelBuilder.Entity<UserModel>().HasData(new UserModel[] {
                 new UserModel
-                { 
-                    Id = 1,
+                {
+                    Id = "1",
                     UserName = "Mike123",
-                    GamerTag = "adfsfg",
+                    GamerTag = "Mikelord",
                     NormalizedUserName = "MIKE123",
                     Email = "mike@example.com",
                     NormalizedEmail = "MIKE@EXAMPLE.COM",
@@ -32,8 +35,8 @@ namespace SPAG.Data
                 },
                 new UserModel
                 {
-                    Id = 2,
-                    GamerTag = "fitthor",
+                    Id = "2",
+                    GamerTag = "GudeN",
                     UserName = "David123",
                     NormalizedUserName = "DAVID123",
                     Email = "david@example.com",
@@ -43,8 +46,8 @@ namespace SPAG.Data
                 },
                 new UserModel
                 {
-                    Id = 3,
-                    GamerTag = "fitthrdgtjhahdfgor",
+                    Id = "3",
+                    GamerTag = "Rajtantajtan",
                     UserName = "Anders123",
                     NormalizedUserName = "ANDERS123",
                     Email = "anders@example.com",
@@ -55,9 +58,9 @@ namespace SPAG.Data
             });
 
             modelBuilder.Entity<GameModel>().HasData(new GameModel[] {
-                new GameModel { Id=1, Score=111, UserId=1},
-                new GameModel { Id=2, Score=250, UserId=2},
-                new GameModel { Id=3, Score=2500, UserId=3},
+                new GameModel { Id=1, Score=111, UserId="1"},
+                new GameModel { Id=2, Score=250, UserId="2"},
+                new GameModel { Id=3, Score=2500, UserId="3"},
             });
         }
     }

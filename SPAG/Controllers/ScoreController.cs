@@ -2,14 +2,14 @@
 using SPAG.Data;
 using SPAG.Models.ViewModels;
 
-namespace SPAG.Controllers
+namespace SPA_Project.Controllers
 {
     [ApiController, Route("[controller]")]
     public class ScoreController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public ScoreController(DataContext context)
+        public ScoreController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -31,7 +31,7 @@ namespace SPAG.Controllers
         }
 
         [HttpGet("gettoptenuser/{userId}")]
-        public List<GameViewModel> GetTopTenUserScore(int userId)
+        public List<GameViewModel> GetTopTenUserScore(string userId)
         {
             var games = _context.Game
                 .Where(game => game.UserId == userId)

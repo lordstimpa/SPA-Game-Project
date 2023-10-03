@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { LoginMenu } from "./api-authorization/LoginMenu";
 
 const Main = Styled.div`
   display: flex;
@@ -64,26 +65,36 @@ const Main = Styled.div`
 export class NavMenu extends Component {
   static displayName = NavMenu.name;
 
+  constructor(props) {
+    super(props);
+
+    this.toggleNavbar = this.toggleNavbar.bind(this);
+    this.state = {
+      collapsed: true,
+    };
+  }
+
+  toggleNavbar() {
+    this.setState({
+      collapsed: !this.state.collapsed,
+    });
+  }
+
   render() {
     return (
       <Main>
         <div className="Banner"></div>
         <div className="Nav">
           <div>
-            <NavLink to="/" className="Link" id="Home">
+            <Link to="/" className="Link" id="Home">
               Home
-            </NavLink>
-            <NavLink to="/" className="Link">
+            </Link>
+            <Link to="/Play" className="Link">
               Play
-            </NavLink>
+            </Link>
           </div>
           <div>
-            <NavLink to="/login" className="Link" id="Login">
-              Login
-            </NavLink>
-            <NavLink to="/create" className="Link" id="Register">
-              Register
-            </NavLink>
+            <LoginMenu className="Link" />
           </div>
         </div>
       </Main>

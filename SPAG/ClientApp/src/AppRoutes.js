@@ -1,6 +1,6 @@
+import ApiAuthorzationRoutes from "./components/api-authorization/ApiAuthorizationRoutes";
 import { Home } from "./components/Home";
-import { Login } from "./components/Login";
-import { Create } from "./components/Create";
+import { Play } from "./components/Play";
 
 const AppRoutes = [
   {
@@ -8,13 +8,10 @@ const AppRoutes = [
     element: <Home />,
   },
   {
-    path: "/login",
-    element: <Login />,
+    path: "/play",
+    element: <Play />,
   },
-  {
-    path: "/create",
-    element: <Create />,
-  },
+  ...ApiAuthorzationRoutes,
 ];
 
 export default AppRoutes;

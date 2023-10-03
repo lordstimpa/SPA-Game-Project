@@ -3,35 +3,170 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SPAG.Data;
 
 #nullable disable
 
-namespace SPAG.Migrations
+namespace SPA_Project.Migrations
 {
-    [DbContext(typeof(DataContext))]
-    [Migration("20231003143502_IdentityUpdate")]
-    partial class IdentityUpdate
+    [DbContext(typeof(ApplicationDbContext))]
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.11")
+                .HasAnnotation("ProductVersion", "6.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.DeviceFlowCodes", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("UserCode")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ClientId")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Data")
+                        .IsRequired()
+                        .HasMaxLength(50000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("DeviceCode")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime?>("Expiration")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SessionId")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("SubjectId")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("UserCode");
+
+                    b.HasIndex("DeviceCode")
+                        .IsUnique();
+
+                    b.HasIndex("Expiration");
+
+                    b.ToTable("DeviceCodes", (string)null);
+                });
+
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.Key", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Algorithm")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Data")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("DataProtected")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsX509Certificate")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Use")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Version")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.HasKey("Id");
+
+                    b.HasIndex("Use");
+
+                    b.ToTable("Keys");
+                });
+
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.PersistedGrant", b =>
+                {
+                    b.Property<string>("Key")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ClientId")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime?>("ConsumedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Data")
+                        .IsRequired()
+                        .HasMaxLength(50000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime?>("Expiration")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SessionId")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("SubjectId")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Key");
+
+                    b.HasIndex("ConsumedTime");
+
+                    b.HasIndex("Expiration");
+
+                    b.HasIndex("SubjectId", "ClientId", "Type");
+
+                    b.HasIndex("SubjectId", "SessionId", "Type");
+
+                    b.ToTable("PersistedGrants", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -55,13 +190,13 @@ namespace SPAG.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -69,8 +204,9 @@ namespace SPAG.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -79,13 +215,13 @@ namespace SPAG.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -93,8 +229,9 @@ namespace SPAG.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -103,7 +240,7 @@ namespace SPAG.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
@@ -116,8 +253,9 @@ namespace SPAG.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -126,13 +264,13 @@ namespace SPAG.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -141,10 +279,10 @@ namespace SPAG.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
@@ -162,19 +300,20 @@ namespace SPAG.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("SPAG.Models.GameModel", b =>
+            modelBuilder.Entity("SPA_Project.Models.GameModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("Score")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -187,29 +326,26 @@ namespace SPAG.Migrations
                         {
                             Id = 1,
                             Score = 111,
-                            UserId = 1
+                            UserId = "1"
                         },
                         new
                         {
                             Id = 2,
                             Score = 250,
-                            UserId = 2
+                            UserId = "2"
                         },
                         new
                         {
                             Id = 3,
                             Score = 2500,
-                            UserId = 3
+                            UserId = "3"
                         });
                 });
 
-            modelBuilder.Entity("SPAG.Models.UserModel", b =>
+            modelBuilder.Entity("SPA_Project.Models.UserModel", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -282,108 +418,111 @@ namespace SPAG.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "94c6e930-9463-4311-bb51-e955128ea92d",
+                            ConcurrencyStamp = "794e1175-d5a2-404a-9f54-c7daca4036ad",
                             Email = "mike@example.com",
                             EmailConfirmed = true,
-                            GamerTag = "adfsfg",
+                            GamerTag = "Mikelord",
                             LockoutEnabled = false,
                             NormalizedEmail = "MIKE@EXAMPLE.COM",
                             NormalizedUserName = "MIKE123",
-                            PasswordHash = "AQAAAAEAACcQAAAAEM0GVRTey+6mKlv12H/9FXs73KDxOF5yOSCT52mY7dcp6ahjTdK3drZbyiJxdHq9Lg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEO2EcVdlmnbixNGYIPUULZHkiI+mOU1RPU/nx8e1aB+Qu4yvUTyzbaQW5RZB11dnwg==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "3cd91eaf-9378-4d18-a2fc-db9937d703b9",
                             TwoFactorEnabled = false,
                             UserName = "Mike123"
                         },
                         new
                         {
-                            Id = 2,
+                            Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2240535c-72e4-4b8e-97f7-f4805518e950",
+                            ConcurrencyStamp = "41414f9f-e7f9-46e5-8ca4-c23144d5b349",
                             Email = "david@example.com",
                             EmailConfirmed = true,
-                            GamerTag = "fitthor",
+                            GamerTag = "GudeN",
                             LockoutEnabled = false,
                             NormalizedEmail = "DAVID@EXAMPLE.COM",
                             NormalizedUserName = "DAVID123",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDBdzY0vbWbecvu3vj+5L6gFF0y8z9pKB+qkiVvAGF6jHMuTaR0OkiIONtrpQlk0bg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPpRVFvOUIFXEOjh7yFL/USPiW2Ga6C5WdpgRusdOegl6SH0q4uzgQee6BNyzpvS8Q==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "c38d1628-3bf3-4c38-ae64-1818ea17f5cd",
                             TwoFactorEnabled = false,
                             UserName = "David123"
                         },
                         new
                         {
-                            Id = 3,
+                            Id = "3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "24c4beec-571b-43b5-8054-b295b0186b14",
+                            ConcurrencyStamp = "da2ca565-ef1e-42a7-ba20-9c8271461cc2",
                             Email = "anders@example.com",
                             EmailConfirmed = true,
-                            GamerTag = "fitthrdgtjhahdfgor",
+                            GamerTag = "Rajtantajtan",
                             LockoutEnabled = false,
                             NormalizedEmail = "ANDERS@EXAMPLE.COM",
                             NormalizedUserName = "ANDERS123",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHdAb4Ox4MgFvASpTczHlAjq9BPCMzSliwLZMfjI4epij49Hmyk7vVcXS2etCwBrxQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMmB0IUDEAWxxKt5Hzfp2CqtyoSg7ZCbsYchaKEMixi/heqU3sMyIM5xrbI+Rl53Sg==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "34be0a0a-b057-4fc2-903c-5220ad28ca1c",
                             TwoFactorEnabled = false,
                             UserName = "Anders123"
                         });
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("SPAG.Models.UserModel", null)
+                    b.HasOne("SPA_Project.Models.UserModel", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("SPAG.Models.UserModel", null)
+                    b.HasOne("SPA_Project.Models.UserModel", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SPAG.Models.UserModel", null)
+                    b.HasOne("SPA_Project.Models.UserModel", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("SPAG.Models.UserModel", null)
+                    b.HasOne("SPA_Project.Models.UserModel", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SPAG.Models.GameModel", b =>
+            modelBuilder.Entity("SPA_Project.Models.GameModel", b =>
                 {
-                    b.HasOne("SPAG.Models.UserModel", "User")
+                    b.HasOne("SPA_Project.Models.UserModel", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
