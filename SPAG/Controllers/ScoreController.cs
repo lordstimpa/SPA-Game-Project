@@ -21,7 +21,7 @@ namespace SPAG.Controllers
             .Select(game => new GameViewModel
             {
                 Score = game.Score,
-                FkUser = game.FkUser,
+                UserId = game.UserId,
             })
             .OrderByDescending(game => game.Score)
             .Take(10)
@@ -34,12 +34,12 @@ namespace SPAG.Controllers
         public List<GameViewModel> GetTopTenUserScore(int userId)
         {
             var games = _context.Game
-                .Where(game => game.FkUser == userId)
+                .Where(game => game.UserId == userId)
                 .OrderByDescending(game => game.Score)
                 .Select(game => new GameViewModel
                 {
                     Score = game.Score,
-                    FkUser = game.FkUser,
+                    UserId = game.UserId,
                 })
                 .Take(10)
                 .ToList();

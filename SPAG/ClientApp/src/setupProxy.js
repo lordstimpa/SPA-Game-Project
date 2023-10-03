@@ -8,8 +8,9 @@ const target = env.ASPNETCORE_HTTPS_PORT
   : "http://localhost:37058";
 
 const context = [
-    "/score/gettoptenoverall",
-    "/score/gettoptenuser/{userId}"
+  "/score/gettoptenoverall",
+  "/score/gettoptenuser/{userId}",
+  "/user/postuser",
 ];
 
 module.exports = function (app) {
@@ -17,7 +18,7 @@ module.exports = function (app) {
     target: target,
     secure: false,
     headers: {
-    Connection: "Keep-Alive",
+      Connection: "Keep-Alive",
     },
   });
 

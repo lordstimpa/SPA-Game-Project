@@ -27,7 +27,7 @@ const Main = Styled.div`
         color: #fff;
       }
 
-      & #Login, #Create {
+      & #Login, #Register {
         border-radius: 0.5rem;
         padding: 0.4rem 1rem;
         transition: 0.2s ease-in-out;
@@ -49,7 +49,7 @@ const Main = Styled.div`
         }
       }
 
-      & #Create {
+      & #Register {
         border: 2px solid #fff;
 
         &:hover {
@@ -81,8 +81,8 @@ export class NavMenu extends Component {
             <NavLink to="/login" className="Link" id="Login">
               Login
             </NavLink>
-            <NavLink to="/create" className="Link" id="Create">
-              Create Account
+            <NavLink to="/create" className="Link" id="Register">
+              Register
             </NavLink>
           </div>
         </div>

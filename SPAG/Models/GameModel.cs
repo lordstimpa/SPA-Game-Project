@@ -8,8 +8,9 @@ namespace SPAG.Models
         [Key]
         public int Id { get; set; }
         public int Score { get; set; }
+
         [ForeignKey("User")]
-        public int FkUser { get; set; }
-        public virtual UserModel User { get; set; }
+        public int UserId { get; set; }
+        public virtual UserModel? User { get; set; }
     }
 }

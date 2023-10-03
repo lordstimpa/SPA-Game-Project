@@ -45,13 +45,15 @@ export class Create extends Component {
     return (
       <Main>
         <div className="Title">
-          <h3>Create a new account</h3>
+          <h3>Register an Account</h3>
         </div>
         <div className="Form">
           <form>
             <label>Username</label>
             <input type="text"></input>
             <label>Password</label>
+            <input type="text"></input>
+            <label>Confirm password</label>
             <input type="text"></input>
             <label>Gamer-tag</label>
             <input type="text"></input>
