@@ -324,6 +324,7 @@ namespace SPAGame.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("GamerTag")
+                        .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
