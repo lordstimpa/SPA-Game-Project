@@ -12,7 +12,7 @@ using SPAGame.Data;
 namespace SPAGame.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231005102341_InitDb")]
+    [Migration("20231005131649_InitDb")]
     partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -326,6 +326,7 @@ namespace SPAGame.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("GamerTag")
+                        .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 

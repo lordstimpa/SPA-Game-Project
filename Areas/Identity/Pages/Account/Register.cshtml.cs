@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -80,6 +81,9 @@ namespace SPAGame.Areas.Identity.Pages.Account
             [Display(Name = "Email")]
             public string Email { get; set; }
             //Added a GamerTag to identity form
+            [AllowNull, MinLength(3), MaxLength(25)]
+            public string? GamerTag { get; set; }
+
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -118,8 +122,8 @@ namespace SPAGame.Areas.Identity.Pages.Account
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                user.GamerTag = Input.GamerTag;
                 var result = await _userManager.CreateAsync(user, Input.Password);
-
 
                 if (result.Succeeded)
                 {
