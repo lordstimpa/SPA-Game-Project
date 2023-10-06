@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Styled from "styled-components";
+import API from "./API";
 
 const Main = Styled.div`
   width: 25%;
@@ -22,22 +23,57 @@ const Main = Styled.div`
     }
   }
 `;
-
+/*
 export class Leaderboard extends Component {
   static displayName = Leaderboard.name;
-  /*
-  const = {
-    data: scores,
-    isError,
-    isLoading
-    } = GetData("https:/score/gettoptenoverall")
-*/
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      scores: [],
+      isError: false,
+      isLoading: true,
+    };
+  }
+
+  componentDidMount() {
+    GetData("https://localhost:44457/score/gettoptenoverall")
+      .then((data) => {
+        this.setState({
+          scores: data,
+          isLoading: false,
+        });
+      })
+      .catch((error) => {
+        this.setState({
+          isError: true,
+          isLoading: false,
+        });
+      });
+  }
+
   render() {
     return (
       <Main>
         <h3>Leaderboard</h3>
-        <div className="Board"></div>
+        <div className="Board">
+          {isLoading && (
+            <div>
+              <h2>Loading...</h2>
+            </div>
+          )}
+          {isError && (
+            <div>
+              <h2>Error: Unable to fetch data.</h2>
+            </div>
+          )}
+          {scores.map((score) => (
+            <p>{score}</p>
+          ))}
+        </div>
       </Main>
     );
   }
 }
+*/

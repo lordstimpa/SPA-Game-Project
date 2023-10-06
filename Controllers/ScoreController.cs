@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using SPAGame.Data;
 using SPAGame.Models;
 using SPAGame.Models.ViewModels;
@@ -9,10 +11,16 @@ namespace SPAGame.Controllers
     public class ScoreController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public ScoreController(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        public ScoreController(UserManager<ApplicationUser> userManager)
+        {
+            _userManager = userManager;
         }
 
         [HttpGet("gettoptenoverall")]
@@ -22,7 +30,6 @@ namespace SPAGame.Controllers
             .Select(game => new GameViewModel
             {
                 Score = game.Score,
-                UserId = game.UserId,
             })
             .OrderByDescending(game => game.Score)
             .Take(10)
@@ -40,12 +47,37 @@ namespace SPAGame.Controllers
                 .Select(game => new GameViewModel
                 {
                     Score = game.Score,
-                    UserId = game.UserId,
                 })
                 .Take(10)
                 .ToList();
 
             return games;
+        }
+
+        [HttpPost("postuserscore")]
+        public async Task<IActionResult> PostUserScore([FromBody] GameModel gameModel)
+        {
+            if (gameModel == null)
+            {
+                return BadRequest("Invalid data");
+            }
+
+            try
+            {
+                var userId = _userManager.GetUserId(User);
+                gameModel.UserId = userId;
+
+                Console.WriteLine("Userid imported value: " + userId);
+                Console.WriteLine("\rUserid set value: " + gameModel.UserId);
+
+                _context.Game.Add(gameModel);
+                await _context.SaveChangesAsync();
+                return Ok("Successfully added score");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }
