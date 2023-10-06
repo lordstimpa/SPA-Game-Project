@@ -1,5 +1,4 @@
 import React, { Component, useEffect, useState } from "react";
-import axios from "axios";
 import Styled from "styled-components";
 
 const Main = Styled.div`
@@ -17,35 +16,24 @@ const Main = Styled.div`
   }
 `;
 
-export class Play extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      score: 0,
-    };
-  }
+const Play = () => {
+  const [score, setScore] = useState(0);
 
-  handleScoreChange = (e) => {
-    this.setState({ score: e.target.value });
+  const handleScoreChange = (e) => {
+    setScore(e.target.value);
   };
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-
-    const data = {
-      score: this.state.score,
-    };
-
-    fetch("https://localhost:7201/score/postuserscore", {
+  const postScore = () => {
+    console.log("Sending score:", score); // Add this line
+    fetch("/score/postuserscore", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ Score: score }), // Make sure the property name matches your GameModel
     })
       .then((response) => {
         if (response.ok) {
           console.log("Score submitted successfully");
+          // You can add code here to handle a successful submission, such as clearing the input field.
         } else {
           console.error("Failed to submit score");
         }
@@ -55,21 +43,22 @@ export class Play extends Component {
       });
   };
 
-  render() {
-    return (
-      <Main>
-        <div className="GameWindow">
-          <form onSubmit={this.handleSubmit}>
-            <label>Score</label>
-            <input
-              type="number"
-              value={this.state.score}
-              onChange={this.handleScoreChange}
-            ></input>
-            <input type="submit" value="Submit"></input>
-          </form>
-        </div>
-      </Main>
-    );
-  }
-}
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    postScore();
+  };
+
+  return (
+    <Main>
+      <div className="GameWindow">
+        <form onSubmit={handleSubmit}>
+          <label>Score</label>
+          <input type="number" value={score} onChange={handleScoreChange} />
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
+    </Main>
+  );
+};
+
+export default Play;

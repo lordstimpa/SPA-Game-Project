@@ -12,15 +12,13 @@ namespace SPAGame.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILogger<ScoreController> _logger;
 
-        public ScoreController(ApplicationDbContext context)
+        public ScoreController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, ILogger<ScoreController> logger)
         {
             _context = context;
-        }
-
-        public ScoreController(UserManager<ApplicationUser> userManager)
-        {
             _userManager = userManager;
+            _logger = logger;
         }
 
         [HttpGet("gettoptenoverall")]
@@ -55,20 +53,18 @@ namespace SPAGame.Controllers
         }
 
         [HttpPost("postuserscore")]
-        public async Task<IActionResult> PostUserScore([FromBody] GameModel gameModel)
+        public async Task<IActionResult> PostUserScore([FromBody] GameModel model)
         {
-            if (gameModel == null)
-            {
-                return BadRequest("Invalid data");
-            }
-
             try
             {
+                _logger.LogInformation($"Received score: {model.Score}");
                 var userId = _userManager.GetUserId(User);
-                gameModel.UserId = userId;
 
-                Console.WriteLine("Userid imported value: " + userId);
-                Console.WriteLine("\rUserid set value: " + gameModel.UserId);
+                var gameModel = new GameModel
+                {
+                    Score = model.Score,
+                    UserId = userId
+                };
 
                 _context.Game.Add(gameModel);
                 await _context.SaveChangesAsync();
@@ -76,7 +72,9 @@ namespace SPAGame.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                _logger.LogError($"Error: {ex.Message}");
+                var errorObject = new { message = $"Internal server error: {ex.Message}" };
+                return StatusCode(500, errorObject);
             }
         }
     }
