@@ -23,57 +23,33 @@ const Main = Styled.div`
     }
   }
 `;
-/*
-export class Leaderboard extends Component {
-  static displayName = Leaderboard.name;
 
-  constructor(props) {
-    super(props);
+const Leaderboard = () => {
+  const {
+    data: scores,
+    isError,
+    isLoading,
+  } = API("https://localhost:44457/score/gettoptenoverall");
 
-    this.state = {
-      scores: [],
-      isError: false,
-      isLoading: true,
-    };
-  }
-
-  componentDidMount() {
-    GetData("https://localhost:44457/score/gettoptenoverall")
-      .then((data) => {
-        this.setState({
-          scores: data,
-          isLoading: false,
-        });
-      })
-      .catch((error) => {
-        this.setState({
-          isError: true,
-          isLoading: false,
-        });
-      });
-  }
-
-  render() {
-    return (
-      <Main>
-        <h3>Leaderboard</h3>
-        <div className="Board">
-          {isLoading && (
-            <div>
-              <h2>Loading...</h2>
-            </div>
-          )}
-          {isError && (
-            <div>
-              <h2>Error: Unable to fetch data.</h2>
-            </div>
-          )}
-          {scores.map((score) => (
-            <p>{score}</p>
-          ))}
-        </div>
-      </Main>
-    );
-  }
-}
-*/
+  return (
+    <Main>
+      <h3>Leaderboard</h3>
+      <div className="Board">
+        {isLoading && (
+          <div>
+            <h2>Loading...</h2>
+          </div>
+        )}
+        {isError && (
+          <div>
+            <h2>Error: Unable to fetch data.</h2>
+          </div>
+        )}
+        {!isLoading &&
+          !isError &&
+          scores.map((score, index) => <p key={index}>{score.score}</p>)}
+      </div>
+    </Main>
+  );
+};
+export default Leaderboard;

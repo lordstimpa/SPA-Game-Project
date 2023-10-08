@@ -1,4 +1,5 @@
 import React, { Component, useEffect, useState } from "react";
+import axios from "axios";
 import Styled from "styled-components";
 
 const Main = Styled.div`
@@ -23,19 +24,29 @@ const Play = () => {
     setScore(e.target.value);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    postScore();
+  };
+
   const postScore = () => {
-    console.log("Sending score:", score); // Add this line
     fetch("/score/postuserscore", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ Score: score }), // Make sure the property name matches your GameModel
+      body: { score },
     })
       .then((response) => {
         if (response.ok) {
           console.log("Score submitted successfully");
-          // You can add code here to handle a successful submission, such as clearing the input field.
+          console.log("Score value: " + score);
+          setScore(0);
         } else {
-          console.error("Failed to submit score");
+          // Handle the error based on the response status code
+          if (response.status === 400) {
+            console.error("Bad Request: Invalid data sent.");
+          } else {
+            console.error("Failed to submit score. Status: " + response.status);
+          }
         }
       })
       .catch((error) => {
@@ -43,18 +54,17 @@ const Play = () => {
       });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    postScore();
-  };
-
   return (
     <Main>
       <div className="GameWindow">
         <form onSubmit={handleSubmit}>
           <label>Score</label>
-          <input type="number" value={score} onChange={handleScoreChange} />
-          <input type="submit" value="Submit" />
+          <input
+            type="number"
+            value={score}
+            onChange={handleScoreChange}
+          ></input>
+          <input type="submit" value="Submit"></input>
         </form>
       </div>
     </Main>

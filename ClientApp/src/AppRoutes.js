@@ -1,5 +1,5 @@
 import ApiAuthorzationRoutes from "./components/api-authorization/ApiAuthorizationRoutes";
-import { Home } from "./components/Home";
+import Home from "./components/Home";
 import Play from "./components/Play";
 import { Login } from "./components/Login";
 import { Register } from "./components/Register";

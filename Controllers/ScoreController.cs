@@ -53,28 +53,37 @@ namespace SPAGame.Controllers
         }
 
         [HttpPost("postuserscore")]
-        public async Task<IActionResult> PostUserScore([FromBody] GameModel model)
+        public async Task<IActionResult> CreateGame([FromBody] string score)
         {
             try
             {
-                _logger.LogInformation($"Received score: {model.Score}");
-                var userId = _userManager.GetUserId(User);
-
-                var gameModel = new GameModel
+                // Get the current user
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
                 {
-                    Score = model.Score,
-                    UserId = userId
+                    return BadRequest("User not found.");
+                }
+
+                // Create a new GameModel instance
+                var game = new GameModel
+                {
+                    Score = Int32.Parse(score),
+                    UserId = user.Id,
                 };
 
-                _context.Game.Add(gameModel);
+                // Add the game to the database
+                _context.Game.Add(game);
                 await _context.SaveChangesAsync();
-                return Ok("Successfully added score");
+
+                return Ok("Game created successfully");
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error: {ex.Message}");
-                var errorObject = new { message = $"Internal server error: {ex.Message}" };
-                return StatusCode(500, errorObject);
+                // Log the exception
+                _logger.LogError(ex, "An error occurred while processing the request.");
+
+                // Handle errors
+                return StatusCode(500, "Internal Server Error");
             }
         }
     }
