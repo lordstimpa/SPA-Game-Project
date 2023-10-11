@@ -1,6 +1,6 @@
 ﻿namespace SPAGame.Models.ViewModels
 {
-    public class GameViewModel
+    public class ScoreViewModel
     {
         public int Score { get; set; }
     }

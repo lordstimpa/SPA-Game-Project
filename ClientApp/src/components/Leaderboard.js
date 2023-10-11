@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Styled from "styled-components";
+import API from "./API";
 
 const Main = Styled.div`
   width: 25%;
@@ -23,21 +24,32 @@ const Main = Styled.div`
   }
 `;
 
-export class Leaderboard extends Component {
-  static displayName = Leaderboard.name;
-  /*
-  const = {
+const Leaderboard = () => {
+  const {
     data: scores,
     isError,
-    isLoading
-    } = GetData("https:/score/gettoptenoverall")
-*/
-  render() {
-    return (
-      <Main>
-        <h3>Leaderboard</h3>
-        <div className="Board"></div>
-      </Main>
-    );
-  }
-}
+    isLoading,
+  } = API("/api/score/gettoptenoverall");
+
+  return (
+    <Main>
+      <h3>Leaderboard</h3>
+      <div className="Board">
+        {isLoading && (
+          <div>
+            <p>Loading...</p>
+          </div>
+        )}
+        {isError && (
+          <div>
+            <p>Error: Unable to fetch data.</p>
+          </div>
+        )}
+        {!isLoading &&
+          !isError &&
+          scores.map((score, index) => <p key={index}>{score.score}</p>)}
+      </div>
+    </Main>
+  );
+};
+export default Leaderboard;

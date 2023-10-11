@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Styled from "styled-components";
-import { Leaderboard } from "./Leaderboard";
+import Leaderboard from "./Leaderboard";
 
 const Main = Styled.div`
   min-height: 1056px;
@@ -29,22 +29,19 @@ const General = Styled.div`
   }
 `;
 
-export class Home extends Component {
-    static displayName = Home.name;
-
-    render() {
-        return (
-            <Main>
-                <General>
-                    <div className="Title">
-                        <h2>Welcome to SPAG!</h2>
-                    </div>
-                    <div className="Text">
-                        <p>lsdokfdghjfg</p>
-                    </div>
-                </General>
-                <Leaderboard />
-            </Main>
-        );
-    }
-}
+const Home = () => {
+  return (
+    <Main>
+      <General>
+        <div className="Title">
+          <h2>Welcome to SPAG!</h2>
+        </div>
+        <div className="Text">
+          <p>lsdokfdghjfg</p>
+        </div>
+      </General>
+      <Leaderboard />
+    </Main>
+  );
+};
+export default Home;
