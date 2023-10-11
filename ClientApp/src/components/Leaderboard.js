@@ -29,7 +29,7 @@ const Leaderboard = () => {
     data: scores,
     isError,
     isLoading,
-  } = API("https://localhost:44457/score/gettoptenoverall");
+  } = API("/api/score/gettoptenoverall");
 
   return (
     <Main>
@@ -37,12 +37,12 @@ const Leaderboard = () => {
       <div className="Board">
         {isLoading && (
           <div>
-            <h2>Loading...</h2>
+            <p>Loading...</p>
           </div>
         )}
         {isError && (
           <div>
-            <h2>Error: Unable to fetch data.</h2>
+            <p>Error: Unable to fetch data.</p>
           </div>
         )}
         {!isLoading &&

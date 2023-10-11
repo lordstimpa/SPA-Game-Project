@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -80,11 +79,12 @@ namespace SPAGame.Areas.Identity.Pages.Account
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
-            //Added a GamerTag to identity form
-            [AllowNull, MinLength(3), MaxLength(25)]
-            public string? GamerTag { get; set; }
 
-
+            [Required]
+            [MinLength(3)]
+            [MaxLength(25)]
+            [Display(Name = "Gamertag")]
+            public string GamerTag { get; set; }
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.

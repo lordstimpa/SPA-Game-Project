@@ -14,8 +14,7 @@ const context = [
   "/connect",
   "/ApplyDatabaseMigrations",
   "/_framework",
-  "/score/gettoptenoverall",
-  "/score/postuserscore",
+  "/api/",
 ];
 
 module.exports = function (app) {

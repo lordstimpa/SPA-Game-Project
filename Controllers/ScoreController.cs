@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using SPAGame.Data;
 using SPAGame.Models;
 using SPAGame.Models.ViewModels;
+using System.Security.Claims;
 
 namespace SPAGame.Controllers
 {
-    [ApiController, Route("[controller]")]
+    [ApiController]
+    [Route("api/[controller]")]
     public class ScoreController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -53,25 +55,29 @@ namespace SPAGame.Controllers
         }
 
         [HttpPost("postuserscore")]
-        public async Task<IActionResult> CreateGame([FromBody] string score)
+        [Authorize]
+        public async Task<IActionResult> CreateGame([FromBody] ScoreViewModel model)
         {
             try
             {
-                // Get the current user
-                var user = await _userManager.GetUserAsync(User);
-                if (user == null)
+                if (model == null || model.Score <= 0)
+                {
+                    return BadRequest("Invalid score data.");
+                }
+
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                if (userId == null)
                 {
                     return BadRequest("User not found.");
                 }
 
-                // Create a new GameModel instance
                 var game = new GameModel
                 {
-                    Score = Int32.Parse(score),
-                    UserId = user.Id,
+                    Score = model.Score,
+                    UserId = userId,
                 };
 
-                // Add the game to the database
                 _context.Game.Add(game);
                 await _context.SaveChangesAsync();
 
@@ -79,10 +85,8 @@ namespace SPAGame.Controllers
             }
             catch (Exception ex)
             {
-                // Log the exception
                 _logger.LogError(ex, "An error occurred while processing the request.");
 
-                // Handle errors
                 return StatusCode(500, "Internal Server Error");
             }
         }

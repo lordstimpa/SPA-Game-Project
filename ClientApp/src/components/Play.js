@@ -1,6 +1,7 @@
-import React, { Component, useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import Styled from "styled-components";
+import axios from "axios";
+import authService from "./api-authorization/AuthorizeService";
 
 const Main = Styled.div`
   height: 1056px;
@@ -20,38 +21,42 @@ const Main = Styled.div`
 const Play = () => {
   const [score, setScore] = useState(0);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const accessToken = await authService.getAccessToken();
+
+      if (!accessToken) {
+        console.error("Access token is not available");
+        return;
+      }
+
+      console.log("Payload to be sent:", { score: score });
+
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      };
+
+      const data = { score: score };
+
+      const response = await axios.post("/api/score/postuserscore", data, {
+        headers,
+      });
+
+      if (response.status === 200) {
+        console.log("Score sent successfully");
+      } else {
+        console.error("Failed to send score");
+      }
+    } catch (error) {
+      console.error("An error occurred", error);
+    }
+  };
+
   const handleScoreChange = (e) => {
     setScore(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    postScore();
-  };
-
-  const postScore = () => {
-    fetch("/score/postuserscore", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: { score },
-    })
-      .then((response) => {
-        if (response.ok) {
-          console.log("Score submitted successfully");
-          console.log("Score value: " + score);
-          setScore(0);
-        } else {
-          // Handle the error based on the response status code
-          if (response.status === 400) {
-            console.error("Bad Request: Invalid data sent.");
-          } else {
-            console.error("Failed to submit score. Status: " + response.status);
-          }
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
   };
 
   return (
