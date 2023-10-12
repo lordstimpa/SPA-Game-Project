@@ -2,6 +2,7 @@ import { useState } from "react";
 import Styled from "styled-components";
 import axios from "axios";
 import authService from "./api-authorization/AuthorizeService";
+import Chat from "./Chat";
 
 const Main = Styled.div`
   height: 1056px;
@@ -71,7 +72,8 @@ const Play = () => {
           ></input>
           <input type="submit" value="Submit"></input>
         </form>
-      </div>
+          </div>
+      <Chat/>
     </Main>
   );
 };
