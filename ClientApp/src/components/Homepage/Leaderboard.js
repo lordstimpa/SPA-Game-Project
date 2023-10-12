@@ -1,9 +1,10 @@
+import React from "react";
 import Styled from "styled-components";
 import API from "../Global/API";
 
 const Main = Styled.div`
   width: 25%;
-  min-height: 60svh;
+  min-height: 60vh;
   background: #f2f2f2;
 
   & h3 {
@@ -34,21 +35,22 @@ const Leaderboard = () => {
     <Main>
       <h3>Leaderboard</h3>
       <div className="Board">
-        {isLoading && (
-          <div>
-            <p>Loading...</p>
-          </div>
+        {isLoading && <p>Loading...</p>}
+        {isError && <p>Error loading data</p>}
+        {scores && (
+          <ul>
+            {scores.map((entry, index) => (
+              <li key={index}>
+                <p>
+                  {entry.gamerTag}: {entry.score}
+                </p>
+              </li>
+            ))}
+          </ul>
         )}
-        {isError && (
-          <div>
-            <p>Error: Unable to fetch data.</p>
-          </div>
-        )}
-        {!isLoading &&
-          !isError &&
-          scores.map((score, index) => <p key={index}>{score.score}</p>)}
       </div>
     </Main>
   );
 };
+
 export default Leaderboard;

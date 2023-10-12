@@ -27,13 +27,17 @@ namespace SPAGame.Controllers
         public List<GameViewModel> GetTopTenOverallScore()
         {
             var games = _context.Game
-            .Select(game => new GameViewModel
-            {
-                Score = game.Score,
-            })
-            .OrderByDescending(game => game.Score)
-            .Take(10)
-            .ToList();
+                .Join(_context.Users,
+                    game => game.UserId,
+                    user => user.Id,
+                    (game, user) => new GameViewModel
+                    {
+                        GamerTag = user.GamerTag,
+                        Score = game.Score
+                    })
+                .OrderByDescending(game => game.Score)
+                .Take(10)
+                .ToList();
 
             return games;
         }
