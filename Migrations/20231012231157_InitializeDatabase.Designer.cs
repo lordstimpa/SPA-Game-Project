@@ -12,8 +12,8 @@ using SPAGame.Data;
 namespace SPAGame.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231005131649_InitDb")]
-    partial class InitDb
+    [Migration("20231012231157_InitializeDatabase")]
+    partial class InitializeDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -384,18 +384,38 @@ namespace SPAGame.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Answer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublicId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Game");
+                });
+
+            modelBuilder.Entity("SPAGame.Models.ScoreModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
                     b.Property<int>("Score")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Game");
+                    b.ToTable("Score");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -449,13 +469,11 @@ namespace SPAGame.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SPAGame.Models.GameModel", b =>
+            modelBuilder.Entity("SPAGame.Models.ScoreModel", b =>
                 {
                     b.HasOne("SPAGame.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });

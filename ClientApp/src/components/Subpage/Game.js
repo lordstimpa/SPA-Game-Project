@@ -1,7 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import API from "../Global/API";
 import authService from "../api-authorization/AuthorizeService";
 import GuessForm from "./GuessForm";
 
@@ -45,40 +44,46 @@ const Game = () => {
   const [score, setScore] = useState(0);
 
   const startGame = async () => {
-    const { data: gameData, isError, isLoading } = API("/api/game/startgame");
-    if (!isError && !isLoading) {
-      setGameId(gameData.gameId);
+    try {
+      const accessToken = await authService.getAccessToken();
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+      };
+      const response = await axios.post("/api/game/startgame", null, {
+        headers: headers,
+      });
+
+      setGameId(response.data.gameId);
       setAnswer(null);
-    } else {
-      console.log("Encountered error when starting game.");
+    } catch (error) {
+      console.error("Error: ", error);
     }
   };
 
   const handleGuess = async (guess) => {
-    const {
-      data: guessData,
-      isError,
-      isLoading,
-    } = API(`/api/game/guessword/${gameId}/${guess}`);
-    if (!isError && !isLoading) {
-      setAnswer(guessData.correct);
-    } else {
-      console.log("Encountered error when sending guess.");
+    try {
+      const accessToken = await authService.getAccessToken();
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+      };
+      const response = await axios.get(
+        `/api/game/guessword/${gameId}/${guess}`,
+        {
+          headers: headers,
+        }
+      );
+
+      setAnswer(response.data.correct);
+    } catch (error) {
+      console.error("Error: ", error);
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleScore = async (e) => {
     e.preventDefault();
 
     try {
       const accessToken = await authService.getAccessToken();
-
-      if (!accessToken) {
-        console.error("Access token is not available");
-        return;
-      }
-
-      console.log("Payload to be sent:", { score: score });
 
       const headers = {
         "Content-Type": "application/json",
@@ -88,14 +93,8 @@ const Game = () => {
       const data = { score: score };
 
       const response = await axios.post("/api/score/postuserscore", data, {
-        headers,
+        headers: headers,
       });
-
-      if (response.status === 200) {
-        console.log("Score sent successfully");
-      } else {
-        console.error("Failed to send score");
-      }
     } catch (error) {
       console.error("An error occurred", error);
     }

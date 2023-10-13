@@ -2,6 +2,7 @@
 {
     public class ScoreViewModel
     {
+        public string? GamerTag { get; set; }
         public int Score { get; set; }
     }
 }

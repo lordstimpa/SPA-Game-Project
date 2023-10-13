@@ -13,6 +13,7 @@ namespace SPAGame.Data
         {
 
         }
+        public DbSet<ScoreModel> Score { get; set; }
         public DbSet<GameModel> Game { get; set; }
     }
 }
