@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Styled from "styled-components";
 import { Link } from "react-router-dom";
-import { LoginMenu } from "./api-authorization/LoginMenu";
+import { LoginMenu } from "../api-authorization/LoginMenu";
 
 const Main = Styled.div`
   display: flex;
@@ -69,41 +69,41 @@ const Main = Styled.div`
 `;
 
 export class NavMenu extends Component {
-    static displayName = NavMenu.name;
+  static displayName = NavMenu.name;
 
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.toggleNavbar = this.toggleNavbar.bind(this);
-        this.state = {
-            collapsed: true,
-        };
-    }
+    this.toggleNavbar = this.toggleNavbar.bind(this);
+    this.state = {
+      collapsed: true,
+    };
+  }
 
-    toggleNavbar() {
-        this.setState({
-            collapsed: !this.state.collapsed,
-        });
-    }
+  toggleNavbar() {
+    this.setState({
+      collapsed: !this.state.collapsed,
+    });
+  }
 
-    render() {
-        return (
-            <Main>
-                <div className="Banner"></div>
-                <div className="Nav">
-                    <div>
-                        <Link to="/" className="Link" id="Home">
-                            Home
-                        </Link>
-                        <Link to="/Play" className="Link">
-                            Play
-                        </Link>
-                    </div>
-                    <div className="LoginMenu">
-                        <LoginMenu className="Link" />
-                    </div>
-                </div>
-            </Main>
-        );
-    }
+  render() {
+    return (
+      <Main>
+        <div className="Banner"></div>
+        <div className="Nav">
+          <div>
+            <Link to="/" className="Link" id="Home">
+              Home
+            </Link>
+            <Link to="/Play" className="Link">
+              Play
+            </Link>
+          </div>
+          <div className="LoginMenu">
+            <LoginMenu className="Link" />
+          </div>
+        </div>
+      </Main>
+    );
+  }
 }

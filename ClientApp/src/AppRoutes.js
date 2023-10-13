@@ -1,8 +1,8 @@
 import ApiAuthorzationRoutes from "./components/api-authorization/ApiAuthorizationRoutes";
-import Home from "./components/Home";
-import Play from "./components/Play";
-import { Login } from "./components/Login";
-import { Register } from "./components/Register";
+import Home from "./components/Homepage/Home";
+import Play from "./components/Subpage/Play";
+import { Login } from "./components/Subpage/Login";
+import { Register } from "./components/Subpage/Register";
 
 const AppRoutes = [
   {

@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { NavMenu } from './NavMenu';
-import { Footer } from './Footer';
- 
+import React, { Component } from "react";
+import { NavMenu } from "./NavMenu";
+import { Footer } from "./Footer";
+
 export class Layout extends Component {
   static displayName = Layout.name;
 
@@ -9,7 +9,7 @@ export class Layout extends Component {
     return (
       <div>
         <NavMenu />
-            {this.props.children}
+        {this.props.children}
         <Footer />
       </div>
     );

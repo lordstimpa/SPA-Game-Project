@@ -24,27 +24,31 @@ namespace SPAGame.Controllers
         }
 
         [HttpGet("gettoptenoverall")]
-        public List<GameViewModel> GetTopTenOverallScore()
+        public List<ScoreViewModel> GetTopTenOverallScore()
         {
-            var games = _context.Game
-            .Select(game => new GameViewModel
-            {
-                Score = game.Score,
-            })
-            .OrderByDescending(game => game.Score)
-            .Take(10)
-            .ToList();
+            var games = _context.Score
+                .Join(_context.Users,
+                    game => game.UserId,
+                    user => user.Id,
+                    (game, user) => new ScoreViewModel
+                    {
+                        GamerTag = user.GamerTag,
+                        Score = game.Score
+                    })
+                .OrderByDescending(game => game.Score)
+                .Take(10)
+                .ToList();
 
             return games;
         }
 
         [HttpGet("gettoptenuser/{userId}")]
-        public List<GameViewModel> GetTopTenUserScore(string userId)
+        public List<ScoreViewModel> GetTopTenUserScore(string userId)
         {
-            var games = _context.Game
+            var games = _context.Score
                 .Where(game => game.UserId == userId)
                 .OrderByDescending(game => game.Score)
-                .Select(game => new GameViewModel
+                .Select(game => new ScoreViewModel
                 {
                     Score = game.Score,
                 })
@@ -72,13 +76,13 @@ namespace SPAGame.Controllers
                     return BadRequest("User not found.");
                 }
 
-                var game = new GameModel
+                var game = new ScoreModel
                 {
                     Score = model.Score,
                     UserId = userId,
                 };
 
-                _context.Game.Add(game);
+                _context.Score.Add(game);
                 await _context.SaveChangesAsync();
 
                 return Ok("Game created successfully");
