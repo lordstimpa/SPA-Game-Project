@@ -2,12 +2,16 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const Main = styled.div`
-  width: 50%;
+  width: 65%;
+  height: 100%;
+  display: flex;
 
   & form {
     display: flex;
+    width: 100%;
     flex-direction: column;
     justify-content: center;
+    text-align: center;
 
     & > * {
       margin: 1rem 0;

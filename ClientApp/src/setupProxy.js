@@ -14,7 +14,7 @@ const context = [
   "/connect",
   "/ApplyDatabaseMigrations",
   "/_framework",
-    "/api/",
+  "/api/",
   "/chatHub",
 ];
 
@@ -23,7 +23,7 @@ module.exports = function (app) {
     proxyTimeout: 10000,
     target: target,
     secure: false,
-    ws:true,
+    ws: true,
   });
 
   app.use(appProxy);

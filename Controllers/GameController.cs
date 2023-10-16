@@ -72,7 +72,7 @@ namespace SPAGame.Controllers
                 return new GuessViewModel() { Correct = false };
             }
 
-            return new GuessViewModel() { Correct = game.Answer == guess };
+            return new GuessViewModel() { Correct = game.Answer.ToLower().Trim() == guess.ToLower().Trim() };
         }
     }
 }
