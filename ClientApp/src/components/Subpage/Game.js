@@ -7,14 +7,14 @@ import GuessForm from "./GuessForm";
 const Main = styled.div`
   height: 1056px;
   display: flex;
-  justify-content: center;
+  width:65%;
 
   & .GameWindow {
     display: flex;
     flex-direction: column;
     align-items: center;
     height: 750px;
-    width: 60%;
+    width: 100%;
     margin: 4rem 2rem;
     border: 2px solid #000;
     border-radius: 1rem;

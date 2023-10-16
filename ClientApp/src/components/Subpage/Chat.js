@@ -1,6 +1,7 @@
 ﻿import React, { useEffect, useState } from 'react';
 import * as signalR from '@microsoft/signalr';
 import Styled from "styled-components";
+import axios from 'axios';
 
 const Main = Styled.div`
   width: 35%;
@@ -22,7 +23,7 @@ const Main = Styled.div`
     justify-content:center;
     margin: 2rem;
     margin-top: 0rem;
-    padding: 1rem;
+    padding: 1.5rem;
     border-radius: 0.5rem;
     border: 2px solid #000;
 
@@ -50,9 +51,22 @@ const Chat = () => {
     const [connection, setConnection] = useState(null);
     const [user, setUser] = useState('');
     const [message, setMessage] = useState('');
+    const [gamerTag, setGamerTag] = useState('');
     const [messages, setMessages] = useState([]);
 
+    const fetchGamerTag = async () => {
+        try {
+            const response = await axios.get('/api/user/gamerTag');
+            setGamerTag(response.data.GamerTag);
+        } catch (error) {
+            console.error('Error fetching gamer tag:', error);
+        }
+    };
+
     useEffect(() => {
+
+        fetchGamerTag(); 
+
         const newConnection = new signalR.HubConnectionBuilder()
             .withUrl("/chatHub")
             .build();
@@ -76,18 +90,17 @@ const Chat = () => {
         };
     }, []); // Only run this effect once when the component mounts
 
+
     const sendMessage = () => {
         connection.invoke("SendMessage", user, message)
             .catch((err) => console.error(err));
     };
-
     return (
         <Main>
             <h2>TrashTalk</h2>
         <div className="Board">
             <div className="p-1">
-                <div className="col-1">User</div>
-                <div className="col-5"><input type="text" value={user} onChange={(e) => setUser(e.target.value)} /></div>
+                    <div className="col-1">{user} : {gamerTag}</div>
             </div>
             <div className="p-1">
                 <div className="message">Message</div>
