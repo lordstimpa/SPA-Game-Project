@@ -83,6 +83,7 @@ namespace SPAGame.Controllers
                 };
 
                 _context.Score.Add(game);
+
                 await _context.SaveChangesAsync();
 
                 return Ok("Game created successfully");

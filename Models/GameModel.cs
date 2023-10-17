@@ -12,5 +12,8 @@ namespace SPAGame.Models
 
         [Required]
         public string? Answer { get; set; }
+
+        [Required]
+        public string? HiddenAnswer { get; set; }
     }
 }

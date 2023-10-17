@@ -26,6 +26,7 @@ namespace SPAGame.Controllers
         public GameViewModel StartGame()
         {
             string publicId = Guid.NewGuid().ToString();
+            string hiddenAnswer = "";
 
             string filePath = Path.Combine(_hostingEnvironment.ContentRootPath, "Data", "GameTitles.json");
 
@@ -40,11 +41,13 @@ namespace SPAGame.Controllers
 
                     string answer = answersList.Answers[randomIndex];
                     string fixedAnswer = Regex.Replace(answer, @"(?<=[a-z])([A-Z])", " $1");
+                    hiddenAnswer = Regex.Replace(fixedAnswer, "[a-zA-Z]", "_");
 
                     _context.Add(new GameModel
                     {
                         PublicId = publicId,
                         Answer = fixedAnswer,
+                        HiddenAnswer = hiddenAnswer,
                     });
 
                     _context.SaveChanges();
@@ -59,20 +62,7 @@ namespace SPAGame.Controllers
                 throw new FileNotFoundException("The JSON data is missing or the file doesn't exist.");
             }
 
-            return new GameViewModel() { GameId = publicId };
-        }
-
-        [HttpGet("guessword/{gameId}/{guess}")]
-        public GuessViewModel GuessWord(string gameId, string guess)
-        {
-            var game = _context.Game.Where(x => x.PublicId == gameId).FirstOrDefault();
-
-            if (game == null)
-            {
-                return new GuessViewModel() { Correct = false };
-            }
-
-            return new GuessViewModel() { Correct = game.Answer.ToLower().Trim() == guess.ToLower().Trim() };
+            return new GameViewModel() { GameId = publicId, HiddenAnswer = hiddenAnswer };
         }
     }
 }

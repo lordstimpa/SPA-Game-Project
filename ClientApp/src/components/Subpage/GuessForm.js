@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
 const Main = styled.div`
   width: 65%;
-  height: 100%;
   display: flex;
 
   & form {
@@ -20,12 +19,12 @@ const Main = styled.div`
   }
 `;
 
-const GuessForm = ({ onGuess }) => {
-  const [guess, setGuess] = useState();
+const GuessForm = ({ makeGuess }) => {
+  const [guess, setGuess] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onGuess(guess);
+    makeGuess(guess);
   };
 
   return (
@@ -35,8 +34,8 @@ const GuessForm = ({ onGuess }) => {
           type="text"
           value={guess}
           onChange={(e) => setGuess(e.target.value)}
-        ></input>
-        <input type="submit" value="Submit"></input>
+        />
+        <input type="submit" value="Submit" />
       </form>
     </Main>
   );

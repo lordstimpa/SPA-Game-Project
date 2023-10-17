@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import * as signalR from "@microsoft/signalr";
 import authService from "../api-authorization/AuthorizeService";
-import GuessForm from "./GuessForm";
-import JoinGame from "./JoinGame";
+import MainMenu from "./MainMenu";
+import GameStart from "./GameStart";
 
 const Main = styled.div`
   height: 1056px;
@@ -21,93 +22,44 @@ const Main = styled.div`
     border: 5px solid #000;
     border-radius: 1rem;
     overflow: hidden;
-
-    // Main Menu (start-screen)
-    & .MainMenu {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        45deg,
-        rgba(7, 0, 120, 1) 0%,
-        rgba(76, 42, 213, 1) 50%,
-        rgba(0, 212, 255, 1) 100%
-      );
-
-      & h1 {
-        color: #f2f2f2;
-        font-size: 6vw;
-      }
-
-      & .Menu {
-        display: flex;
-        flex-direction: row;
-        margin-bottom: 15rem;
-
-        & .InputContainer {
-          display: flex;
-          flex-direction: column;
-
-          & label {
-            margin-left: 1rem;
-            color: #f2f2f2;
-          }
-        }
-
-        & button,
-        input {
-          border: 1px solid #f2f2f2;
-          border-radius: 0.5rem;
-          background: #000;
-          color: #f2f2f2;
-          margin: 1rem;
-          padding: 0.5rem 1rem;
-          font-size: 1.2rem;
-          height: min-content;
-        }
-
-        & input {
-          width: 30vw;
-        }
-      }
-    }
-
-    // Game Window (game-active)
-    & .GameStart {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      background: #000;
-      padding: 0.5rem 1rem;
-      align-items: center;
-
-      & p {
-        margin: 0.4rem 0.5rem;
-      }
-
-      & button {
-        background: #000;
-        border: 1px solid #fff;
-        border-radius: 0.5rem;
-        padding: 0.4rem 0.5rem;
-      }
-
-      & p,
-      button {
-        color: #fff;
-      }
-    }
   }
 `;
 
 const Game = () => {
+  const [connection, setConnection] = useState(null);
   const [gameId, setGameId] = useState(null);
-  const [answer, setAnswer] = useState(null);
+  const [hiddenAnswer, setHiddenAnswer] = useState("");
   const [joinGame, setJoinGame] = useState(false);
-  const [score, setScore] = useState(0);
+
+  useEffect(() => {
+    if (gameId) {
+      const newConnection = new signalR.HubConnectionBuilder()
+        .withUrl("/gameHub")
+        .withAutomaticReconnect()
+        .build();
+
+      setConnection(newConnection);
+
+      newConnection
+        .start()
+        .then(() => {
+          console.log("SignalR Connected");
+          setConnection(newConnection);
+
+          newConnection.on("UpdateHiddenAnswer", (newHiddenAnswer) => {
+            console.log("Received new hidden answer:", newHiddenAnswer);
+            setHiddenAnswer(newHiddenAnswer);
+          });
+        })
+        .catch((err) => console.error(err));
+
+      return () => {
+        if (newConnection) {
+          newConnection.stop();
+        }
+      };
+    }
+  }, [gameId]);
 
   const startGame = async () => {
     try {
@@ -120,72 +72,40 @@ const Game = () => {
       });
 
       setGameId(response.data.gameId);
-      setAnswer(null);
+      setHiddenAnswer(response.data.hiddenAnswer);
     } catch (error) {
       console.error("Error: ", error);
     }
   };
 
-  const handleJoinGame = async () => {};
-
-  const handleGuess = async (guess) => {
+  const handleJoinGame = async () => {
     try {
-      const accessToken = await authService.getAccessToken();
-      const headers = {
-        Authorization: `Bearer ${accessToken}`,
-      };
-      const response = await axios.get(
-        `/api/game/guessword/${gameId}/${guess}`,
-        {
-          headers: headers,
-        }
-      );
-
-      setAnswer(response.data.correct);
-    } catch (error) {
-      console.error("Error: ", error);
-    }
+    } catch {}
   };
 
-  const handleScore = async (e) => {
-    e.preventDefault();
-
-    try {
-      const accessToken = await authService.getAccessToken();
-
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      };
-
-      const data = { score: score };
-
-      const response = await axios.post("/api/score/postuserscore", data, {
-        headers: headers,
-      });
-    } catch (error) {
-      console.error("An error occurred", error);
-    }
+  const makeGuess = (guess) => {
+    connection.invoke("MakeGuess", gameId, guess).catch((error) => {
+      console.error("Error making a guess:", error);
+    });
   };
 
   return (
     <Main>
       <div className="GameWindow">
         {gameId === null ? (
-          <JoinGame />
+          <MainMenu
+            joinGame={joinGame}
+            setJoinGame={setJoinGame}
+            handleJoinGame={handleJoinGame}
+            startGame={startGame}
+          />
         ) : (
           <>
-            <div className="GameStart">
-              <p>Game-ID: {gameId}</p>
-              <button onClick={startGame}>New Game</button>
-            </div>
-            <div>
-              <h2>Guess the Word!</h2>
-              {answer !== null && (
-                <p>{answer ? "Correct guess!" : "Incorrect guess!"}</p>
-              )}
-            </div>
-            <GuessForm onGuess={handleGuess} />
+            <GameStart
+              gameId={gameId}
+              hiddenAnswer={hiddenAnswer}
+              makeGuess={makeGuess}
+            />
           </>
         )}
       </div>

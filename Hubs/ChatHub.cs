@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using SPAGame.Data;
 
 namespace SPAGame.Hubs
 {

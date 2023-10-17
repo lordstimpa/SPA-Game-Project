@@ -16,6 +16,7 @@ const context = [
   "/_framework",
   "/api/",
   "/chatHub",
+  "/gameHub",
 ];
 
 module.exports = function (app) {
