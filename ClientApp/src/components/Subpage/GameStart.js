@@ -43,6 +43,12 @@ const Main = styled.div`
       font-size: 3rem;
     }
   }
+
+  & .ResultsContainer {
+    position: fixed;
+    top: 50;
+    left: 50;
+  }
 `;
 
 function GameStart({
@@ -65,6 +71,14 @@ function GameStart({
         <div className="GameChild">
           <h2 className="HiddenAnswer">{hiddenAnswer}</h2>
         </div>
+        {gameResult !== null && (
+          <div className="ResultsContainer">
+            <h2>{gameResult ? "You have won!" : "You have lost!"}</h2>
+            <p>
+              Score: {gameScore} | Guesses: {gameGuesses}
+            </p>
+          </div>
+        )}
         <GuessForm makeGuess={makeGuess} />
       </div>
     </Main>

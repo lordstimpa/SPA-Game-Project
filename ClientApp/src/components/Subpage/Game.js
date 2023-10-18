@@ -63,9 +63,9 @@ const Game = () => {
             }
           );
 
-          newConnection.on("ShowGameResults", (newGameResult, newGameScore) => {
-            setGameResult(newGameResult);
+          newConnection.on("ShowGameResults", (newGameScore, newGameResult) => {
             setGameScore(newGameScore);
+            setGameResult(newGameResult);
           });
         })
         .catch((err) => console.error(err));

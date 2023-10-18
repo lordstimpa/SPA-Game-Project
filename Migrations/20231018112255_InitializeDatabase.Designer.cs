@@ -12,7 +12,7 @@ using SPAGame.Data;
 namespace SPAGame.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231018104122_InitializeDatabase")]
+    [Migration("20231018112255_InitializeDatabase")]
     partial class InitializeDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

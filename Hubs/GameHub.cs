@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using SPAGame.Data;
 
@@ -33,6 +34,8 @@ namespace SPAGame.Hubs
             {
                 // Handle case when user guesses entire word correctly
                 game.HiddenAnswer = game.Answer;
+
+                PostScore(game.UserId);
             }
             else if (guess.Length == 1 && game.Answer.ToLower().Contains(guessFixed))
             {
@@ -60,7 +63,7 @@ namespace SPAGame.Hubs
             _context.SaveChanges();
             await Clients.Group(gameId).SendAsync("UpdateHiddenAnswer", game.HiddenAnswer, game.Guesses);
 
-            if (game.Answer == game.HiddenAnswer)
+            if (game.HiddenAnswer == game.Answer)
             {
                 PostScore(game.UserId);
             }
