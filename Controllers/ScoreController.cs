@@ -57,45 +57,5 @@ namespace SPAGame.Controllers
 
             return games;
         }
-
-        /*
-        [HttpPost("postuserscore")]
-        [Authorize]
-        public async Task<IActionResult> CreateGame([FromBody] ScoreViewModel model)
-        {
-            try
-            {
-                if (model == null || model.Game <= 0)
-                {
-                    return BadRequest("Invalid score data.");
-                }
-
-                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-                if (userId == null)
-                {
-                    return BadRequest("User not found.");
-                }
-
-                var game = new ScoreModel
-                {
-                    Score = model.Score,
-                    UserId = userId,
-                };
-
-                _context.Score.Add(game);
-
-                await _context.SaveChangesAsync();
-
-                return Ok("Score posted successfully");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while processing the request.");
-
-                return StatusCode(500, "Internal Server Error");
-            }
-        }
-        */
     }
 }

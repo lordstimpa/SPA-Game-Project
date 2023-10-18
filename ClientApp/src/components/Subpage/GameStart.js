@@ -45,7 +45,14 @@ const Main = styled.div`
   }
 `;
 
-function GameStart({ gameId, hiddenAnswer, makeGuess }) {
+function GameStart({
+  gameId,
+  hiddenAnswer,
+  makeGuess,
+  gameGuesses,
+  gameScore,
+  gameResult,
+}) {
   return (
     <Main>
       <div className="GameMenu">

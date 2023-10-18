@@ -386,6 +386,9 @@ namespace SPAGame.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Guesses")
+                        .HasColumnType("int");
+
                     b.Property<string>("HiddenAnswer")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

@@ -31,9 +31,12 @@ const Main = styled.div`
 
 const Game = () => {
   const [connection, setConnection] = useState(null);
+  const [joinGame, setJoinGame] = useState(false);
   const [gameId, setGameId] = useState(null);
   const [hiddenAnswer, setHiddenAnswer] = useState("");
-  const [joinGame, setJoinGame] = useState(false);
+  const [gameGuesses, setGameGuesses] = useState(null);
+  const [gameScore, setGameScore] = useState(null);
+  const [gameResult, setGameResult] = useState(null);
 
   useEffect(() => {
     if (gameId) {
@@ -47,14 +50,22 @@ const Game = () => {
       newConnection
         .start()
         .then(() => {
-          console.log("SignalR Connected");
+          console.log("SignalR Connected to Game");
           setConnection(newConnection);
 
           newConnection.invoke("AddToGroup", gameId);
 
-          newConnection.on("UpdateHiddenAnswer", (newHiddenAnswer) => {
-            console.log("Received new hidden answer:", newHiddenAnswer);
-            setHiddenAnswer(newHiddenAnswer);
+          newConnection.on(
+            "UpdateHiddenAnswer",
+            (newHiddenAnswer, newGuess) => {
+              setHiddenAnswer(newHiddenAnswer);
+              setGameGuesses(newGuess);
+            }
+          );
+
+          newConnection.on("ShowGameResults", (newGameResult, newGameScore) => {
+            setGameResult(newGameResult);
+            setGameScore(newGameScore);
           });
         })
         .catch((err) => console.error(err));
@@ -111,6 +122,9 @@ const Game = () => {
               gameId={gameId}
               hiddenAnswer={hiddenAnswer}
               makeGuess={makeGuess}
+              gameGuesses={gameGuesses}
+              gameScore={gameScore}
+              gameResult={gameResult}
             />
           </>
         )}

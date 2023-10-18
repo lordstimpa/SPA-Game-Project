@@ -22,6 +22,9 @@ namespace SPAGame.Models
         public string? HiddenAnswer { get; set; }
 
         [Required]
+        public int Guesses { get; set; } = 0;
+
+        [Required]
         public int Score { get; set; } = 100;
     }
 }

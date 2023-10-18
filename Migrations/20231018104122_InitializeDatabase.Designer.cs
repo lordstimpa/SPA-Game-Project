@@ -12,7 +12,7 @@ using SPAGame.Data;
 namespace SPAGame.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231018073326_InitializeDatabase")]
+    [Migration("20231018104122_InitializeDatabase")]
     partial class InitializeDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -387,6 +387,9 @@ namespace SPAGame.Migrations
                     b.Property<string>("Answer")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Guesses")
+                        .HasColumnType("int");
 
                     b.Property<string>("HiddenAnswer")
                         .IsRequired()
