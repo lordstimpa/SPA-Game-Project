@@ -1,6 +1,8 @@
 ﻿import React, { useEffect, useState } from 'react';
 import * as signalR from '@microsoft/signalr';
 import Styled from "styled-components";
+import axios from 'axios';
+import authService from "../api-authorization/AuthorizeService";
 
 const Main = Styled.div`
   width: 35%;
@@ -13,6 +15,12 @@ const Main = Styled.div`
       margin-top: 4rem;
       text-align:center;
       font-size: bold;
+
+    }
+    & h5 {
+        font-family: 'Pixelify Sans', sans-serif;
+        font-size: bold
+
     }
     
     & .Board {
@@ -22,9 +30,10 @@ const Main = Styled.div`
     justify-content:center;
     margin: 2rem;
     margin-top: 0rem;
-    padding: 1rem;
+    padding: 1.5rem;
     border-radius: 0.5rem;
     border: 2px solid #000;
+    overflow: hidden;
 
     & p {
         padding: 0.2rem 0.5rem;
@@ -48,11 +57,29 @@ const Main = Styled.div`
 
 const Chat = () => {
     const [connection, setConnection] = useState(null);
-    const [user, setUser] = useState('');
     const [message, setMessage] = useState('');
+    const [gamerTag, setGamerTag] = useState('');
     const [messages, setMessages] = useState([]);
 
+    const fetchGamerTag = async () => {
+        try {
+            const accessToken = await authService.getAccessToken();
+            const headers = {
+                Authorization: `Bearer ${accessToken}`,
+            };
+            const response = await axios.get('/api/user/getuser', {
+                headers: headers,
+            });
+            setGamerTag(response.data.gamerTag);
+        } catch (error) {
+            console.error('Error fetching gamer tag:', error);
+        }
+    };
+
     useEffect(() => {
+
+        fetchGamerTag(); 
+
         const newConnection = new signalR.HubConnectionBuilder()
             .withUrl("/chatHub")
             .build();
@@ -76,18 +103,17 @@ const Chat = () => {
         };
     }, []); // Only run this effect once when the component mounts
 
+
     const sendMessage = () => {
-        connection.invoke("SendMessage", user, message)
+        connection.invoke("SendMessage", gamerTag, message)
             .catch((err) => console.error(err));
     };
-
     return (
         <Main>
             <h2>TrashTalk</h2>
         <div className="Board">
             <div className="p-1">
-                <div className="col-1">User</div>
-                <div className="col-5"><input type="text" value={user} onChange={(e) => setUser(e.target.value)} /></div>
+                    <div className="col-1"><h5>{gamerTag}</h5></div>
             </div>
             <div className="p-1">
                 <div className="message">Message</div>
