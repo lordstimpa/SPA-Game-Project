@@ -10,21 +10,19 @@ const Main = Styled.div`
 
 const General = Styled.div`
   width: 75%;
-
-  & .Title {
-    margin-top: 2rem;
-    
-    & h2 {
-      text-align: center;
-    }
-  }
+  margin-top: 2rem;
 
   & .Text {
-    min-height: 250px;
+    min-height: 550px;
     margin: 2rem;
-    padding: 1rem;
-    border: 2px solid #000;
+    padding: 2rem;
     border-radius: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+    & h2 {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
   }
 `;
 
@@ -32,10 +30,8 @@ const Home = () => {
   return (
     <Main>
       <General>
-        <div className="Title">
-          <h2>Welcome to SPAG!</h2>
-        </div>
         <div className="Text">
+          <h2>Welcome to SPAG!</h2>
           <p>lsdokfdghjfg</p>
         </div>
       </General>

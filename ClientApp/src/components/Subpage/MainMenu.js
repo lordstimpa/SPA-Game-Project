@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import HangMan from "../../img/hangman.png";
 
 const Main = styled.div`
   width: 100%;
@@ -15,17 +16,28 @@ const Main = styled.div`
   & .Title {
     height: 30%;
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: space-evenly;
 
     & h1 {
       color: #f2f2f2;
-      font-size: 3vw;
+      font-size: 4vw;
+    }
+  }
+
+  & .Logo {
+    height: 30%;
+    display: flex;
+    align-items: center;
+    & img {
+      width: 250px;
     }
   }
 
   & .Menu {
     width: 50%;
-    height: ${(props) => (props.joinGame ? "40%" : "70%")};
+    height: 40%;
     display: flex;
     flex-direction: ${(props) => (props.joinGame ? "column" : "row")};
     justify-content: center;
@@ -42,10 +54,10 @@ const Main = styled.div`
       display: flex;
       justify-content: center;
     }
-  }
 
-  & .Back {
-    height: 30%;
+    & .Back {
+      align-self: center;
+    }
   }
 
   & input {
@@ -67,7 +79,10 @@ function MainMenu({ joinGame, setJoinGame, handleJoinGame, startGame }) {
   return (
     <Main joinGame={joinGame}>
       <div className="Title">
-        <h1>Guess the Word</h1>
+        <h1>Hangman</h1>
+      </div>
+      <div className="Logo">
+        <img src={HangMan}></img>
       </div>
       {joinGame === false ? (
         <div className="Menu">
@@ -84,9 +99,9 @@ function MainMenu({ joinGame, setJoinGame, handleJoinGame, startGame }) {
               <input type="text" />
               <button onClick={handleJoinGame}>Submit</button>
             </div>
-          </div>
-          <div className="Back">
-            <button onClick={() => setJoinGame(false)}>Go Back</button>
+            <div className="Back">
+              <button onClick={() => setJoinGame(false)}>Go Back</button>
+            </div>
           </div>
         </>
       )}

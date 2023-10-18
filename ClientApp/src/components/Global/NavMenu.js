@@ -19,14 +19,16 @@ const Main = Styled.div`
     justify-content: space-between;
     background: #000;
     
-    & .LoginMenu {
+    & .LoginMenu, .HomeMenu {
     display: flex;
     flex-direction: row;
+    align-items: center;
     justify-content: space-between;
 
     }
+
     & div {
-      margin: 1.2rem 3rem;
+      margin: 1rem 3rem;
       font-size: 1.2rem;
 
       & .Link {
@@ -34,7 +36,7 @@ const Main = Styled.div`
         color: #fff;
       }
 
-      & #Login, #Register {
+      & #Login, #Register, #Logout, #Profile {
         border-radius: 0.5rem;
         padding: 0.4rem 1rem;
         transition: 0.2s ease-in-out;
@@ -44,7 +46,7 @@ const Main = Styled.div`
         margin-right: 2rem;
       }
 
-      & #Login {
+      & #Login, #Profile {
         margin-right: 2rem;
         border: 2px solid #fff;
         background: #fff;
@@ -56,7 +58,7 @@ const Main = Styled.div`
         }
       }
 
-      & #Register {
+      & #Register, #Logout {
         border: 2px solid #fff;
 
         &:hover {
@@ -91,7 +93,7 @@ export class NavMenu extends Component {
       <Main>
         <div className="Banner"></div>
         <div className="Nav">
-          <div>
+          <div className="HomeMenu">
             <Link to="/" className="Link" id="Home">
               Home
             </Link>

@@ -4,22 +4,18 @@ import API from "../Global/API";
 
 const Main = Styled.div`
   width: 25%;
-  min-height: 60vh;
   background: #f2f2f2;
-
-  & h3 {
-    margin-left: 2rem;
-    margin-top: 2rem;
-  }
+  margin-top: 2rem;
 
   & .Board {
+    min-height: 550px;
     margin: 2rem;
-    padding: 1rem;
+    padding: 2rem;
     border-radius: 1rem;
-    border: 2px solid #000;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
-    & p {
-        padding: 0.2rem 0.5rem;
+    & h3 {
+      margin-bottom: 2rem;
     }
   }
 `;
@@ -33,20 +29,18 @@ const Leaderboard = () => {
 
   return (
     <Main>
-      <h3>Leaderboard</h3>
       <div className="Board">
+        <h3>Leaderboard</h3>
         {isLoading && <p>Loading...</p>}
         {isError && <p>Error loading data</p>}
         {scores && (
-          <ul>
+          <>
             {scores.map((entry, index) => (
-              <li key={index}>
-                <p>
-                  {entry.gamerTag}: {entry.score}
-                </p>
-              </li>
+              <p key={index}>
+                {entry.gamerTag}: {entry.score}
+              </p>
             ))}
-          </ul>
+          </>
         )}
       </div>
     </Main>
