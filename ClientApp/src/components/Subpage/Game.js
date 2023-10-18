@@ -7,6 +7,7 @@ import MainMenu from "./MainMenu";
 import GameStart from "./GameStart";
 
 const Main = styled.div`
+  font-family: "Press Start 2P", sans-serif;
   height: 1056px;
   width: 65%;
   display: flex;
@@ -119,6 +120,8 @@ const Game = () => {
         ) : (
           <>
             <GameStart
+              setGameId={setGameId}
+              setJoinGame={setJoinGame}
               gameId={gameId}
               hiddenAnswer={hiddenAnswer}
               makeGuess={makeGuess}

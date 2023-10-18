@@ -19,7 +19,7 @@ const Main = styled.div`
 
     & h1 {
       color: #f2f2f2;
-      font-size: 5vw;
+      font-size: 3vw;
     }
   }
 
@@ -57,7 +57,6 @@ const Main = styled.div`
     margin: 1rem;
     padding: 0.5rem 1rem;
     border: 1px solid #f2f2f2;
-    border-radius: 0.5rem;
     background: #000;
     color: #f2f2f2;
     align-self: center;

@@ -14,13 +14,13 @@ const Main = styled.div`
       margin: 1rem;
       padding: 0.5rem 1rem;
       border: 1px solid #f2f2f2;
-      border-radius: 0.5rem;
       background: #000;
       color: #f2f2f2;
       align-self: center;
     }
 
     & label {
+      font-size: 0.8rem;
       width: 50%;
       color: #f2f2f2;
       align-self: center;
@@ -28,10 +28,6 @@ const Main = styled.div`
 
     & input[type="text"] {
       width: 50%;
-    }
-
-    & input[type="submit"] {
-      width: 150px;
     }
   }
 `;

@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using SPAGame.Data;
+using System.Text.RegularExpressions;
 
 namespace SPAGame.Hubs
 {
@@ -28,14 +29,13 @@ namespace SPAGame.Hubs
                 throw new Exception("Game ID is wrong or null.");
             }
 
-            string guessFixed = guess.ToLower().Trim();
+            string guessFixed = Regex.Replace(guess, @"\s", "").ToLower();
+            string answerFixed = Regex.Replace(game.Answer, @"\s", "").ToLower();
 
-            if (game.Answer.ToLower() == guessFixed)
+            if (answerFixed == guessFixed)
             {
                 // Handle case when user guesses entire word correctly
                 game.HiddenAnswer = game.Answer;
-
-                PostScore(game.UserId);
             }
             else if (guess.Length == 1 && game.Answer.ToLower().Contains(guessFixed))
             {
@@ -63,15 +63,15 @@ namespace SPAGame.Hubs
             _context.SaveChanges();
             await Clients.Group(gameId).SendAsync("UpdateHiddenAnswer", game.HiddenAnswer, game.Guesses);
 
-            if (game.HiddenAnswer == game.Answer)
+            if (game.HiddenAnswer == game.Answer || answerFixed == guessFixed)
             {
-                PostScore(game.UserId);
+                PostScore(game.PublicId);
             }
         }
 
-        public async Task PostScore(string userId)
+        public async Task PostScore(string publicId)
         {
-            var game = _context.Game.FirstOrDefault(x => x.UserId == userId);
+            var game = _context.Game.FirstOrDefault(x => x.PublicId == publicId);
             bool gameResult = false;
 
             if (game == null)
@@ -79,18 +79,18 @@ namespace SPAGame.Hubs
                 throw new Exception("Game ID is wrong or null.");
             }
 
-            game.Score -= game.Guesses * 10;
-
-            if (game.Score > 0)         
+            if (game.Guesses >= 10)         
             {
-                gameResult = true;
+                game.Score = 0;
+                _context.SaveChanges();
             } 
             else
             {
-                game.Score = 0;
+                gameResult = true;
+                game.Score -= game.Guesses * 10;
+                _context.SaveChanges();
             }
 
-            _context.SaveChanges();
             await Clients.Group(game.PublicId).SendAsync("ShowGameResults", game.Score, gameResult);
         }
     }
