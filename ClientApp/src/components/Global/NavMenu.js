@@ -10,7 +10,7 @@ const Main = Styled.div`
 
   & .Banner {
     height: 100%;
-    background: linear-gradient(90deg, rgba(7,0,120,1) 0%, rgba(76,42,213,1) 50%, rgba(0,212,255,1) 100%);
+    background: radial-gradient(circle, rgba(7,0,120,1) 0%, rgba(93,42,213,1) 50%, rgba(59,0,255,1) 100%);
   }
 
   & .Nav {

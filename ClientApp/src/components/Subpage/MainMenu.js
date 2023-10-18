@@ -9,8 +9,8 @@ const Main = styled.div`
   background: linear-gradient(
     45deg,
     rgba(7, 0, 120, 1) 0%,
-    rgba(76, 42, 213, 1) 50%,
-    rgba(0, 212, 255, 1) 100%
+    rgba(93, 42, 213, 1) 50%,
+    rgba(59, 0, 255, 1) 100%
   );
 
   & .Title {

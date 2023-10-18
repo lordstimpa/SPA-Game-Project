@@ -20,7 +20,7 @@ const Main = styled.div`
     flex-direction: column;
     align-items: center;
     margin: 4rem 2rem;
-    border: 5px solid #000;
+    border: 4px solid #000;
     border-radius: 1rem;
     overflow: hidden;
 
