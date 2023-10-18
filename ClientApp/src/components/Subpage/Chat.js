@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as signalR from '@microsoft/signalr';
 import Styled from "styled-components";
 import axios from 'axios';
@@ -7,7 +7,6 @@ import authService from "../api-authorization/AuthorizeService";
 const Main = Styled.div`
   width: 35%;
   min-height: 60svh;
-  background: #f2f2f2;
   justify-content: center;
   
   & h2 {
@@ -20,7 +19,6 @@ const Main = Styled.div`
     & h5 {
         font-family: 'Pixelify Sans', sans-serif;
         font-size: bold
-
     }
     
     & .Board {

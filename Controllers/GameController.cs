@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SPAGame.Data;
 using SPAGame.Models;
 using SPAGame.Models.ViewModels;
+using System.Security.Claims;
 using System.Text.RegularExpressions;
 
 namespace SPAGame.Controllers
@@ -26,6 +27,8 @@ namespace SPAGame.Controllers
         public GameViewModel StartGame()
         {
             string publicId = Guid.NewGuid().ToString();
+            string hiddenAnswer = "";
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             string filePath = Path.Combine(_hostingEnvironment.ContentRootPath, "Data", "GameTitles.json");
 
@@ -40,11 +43,14 @@ namespace SPAGame.Controllers
 
                     string answer = answersList.Answers[randomIndex];
                     string fixedAnswer = Regex.Replace(answer, @"(?<=[a-z])([A-Z])", " $1");
+                    hiddenAnswer = Regex.Replace(fixedAnswer, "[a-zA-Z]", "_");
 
                     _context.Add(new GameModel
                     {
                         PublicId = publicId,
+                        UserId = userId,
                         Answer = fixedAnswer,
+                        HiddenAnswer = hiddenAnswer,
                     });
 
                     _context.SaveChanges();
@@ -59,20 +65,7 @@ namespace SPAGame.Controllers
                 throw new FileNotFoundException("The JSON data is missing or the file doesn't exist.");
             }
 
-            return new GameViewModel() { GameId = publicId };
-        }
-
-        [HttpGet("guessword/{gameId}/{guess}")]
-        public GuessViewModel GuessWord(string gameId, string guess)
-        {
-            var game = _context.Game.Where(x => x.PublicId == gameId).FirstOrDefault();
-
-            if (game == null)
-            {
-                return new GuessViewModel() { Correct = false };
-            }
-
-            return new GuessViewModel() { Correct = game.Answer == guess };
+            return new GameViewModel() { GameId = publicId, HiddenAnswer = hiddenAnswer };
         }
     }
 }

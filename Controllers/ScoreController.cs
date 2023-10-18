@@ -26,7 +26,7 @@ namespace SPAGame.Controllers
         [HttpGet("gettoptenoverall")]
         public List<ScoreViewModel> GetTopTenOverallScore()
         {
-            var games = _context.Score
+            var games = _context.Game
                 .Join(_context.Users,
                     game => game.UserId,
                     user => user.Id,
@@ -45,7 +45,7 @@ namespace SPAGame.Controllers
         [HttpGet("gettoptenuser/{userId}")]
         public List<ScoreViewModel> GetTopTenUserScore(string userId)
         {
-            var games = _context.Score
+            var games = _context.Game
                 .Where(game => game.UserId == userId)
                 .OrderByDescending(game => game.Score)
                 .Select(game => new ScoreViewModel
@@ -56,43 +56,6 @@ namespace SPAGame.Controllers
                 .ToList();
 
             return games;
-        }
-
-        [HttpPost("postuserscore")]
-        [Authorize]
-        public async Task<IActionResult> CreateGame([FromBody] ScoreViewModel model)
-        {
-            try
-            {
-                if (model == null || model.Score <= 0)
-                {
-                    return BadRequest("Invalid score data.");
-                }
-
-                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-                if (userId == null)
-                {
-                    return BadRequest("User not found.");
-                }
-
-                var game = new ScoreModel
-                {
-                    Score = model.Score,
-                    UserId = userId,
-                };
-
-                _context.Score.Add(game);
-                await _context.SaveChangesAsync();
-
-                return Ok("Game created successfully");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while processing the request.");
-
-                return StatusCode(500, "Internal Server Error");
-            }
         }
     }
 }

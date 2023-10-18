@@ -14,8 +14,9 @@ const context = [
   "/connect",
   "/ApplyDatabaseMigrations",
   "/_framework",
-    "/api/",
+  "/api/",
   "/chatHub",
+  "/gameHub",
 ];
 
 module.exports = function (app) {
@@ -23,7 +24,7 @@ module.exports = function (app) {
     proxyTimeout: 10000,
     target: target,
     secure: false,
-    ws:true,
+    ws: true,
   });
 
   app.use(appProxy);

@@ -1,47 +1,83 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import * as signalR from "@microsoft/signalr";
 import authService from "../api-authorization/AuthorizeService";
-import GuessForm from "./GuessForm";
+import MainMenu from "./MainMenu";
+import GameStart from "./GameStart";
 
 const Main = styled.div`
+  font-family: "Press Start 2P", sans-serif;
   height: 1056px;
+  width: 65%;
   display: flex;
-  width:65%;
+  flex-direction: row;
+  justify-content: center;
 
   & .GameWindow {
     display: flex;
+    width: 100%;
     flex-direction: column;
     align-items: center;
-    height: 750px;
-    width: 100%;
     margin: 4rem 2rem;
-    border: 2px solid #000;
+    border: 5px solid #000;
     border-radius: 1rem;
     overflow: hidden;
 
-    & .GameMenu {
-      display: flex;
-      justify-content: flex-end;
-      width: 100%;
-      background: #000;
-      padding: 0.5rem 1rem;
-
-      & button {
-        background: #000;
-        color: #fff;
-        border: 1px solid #fff;
-        border-radius: 0.5rem;
-        padding: 0.4rem 0.5rem;
-      }
+    & > * {
+      height: 100%;
     }
   }
 `;
 
 const Game = () => {
+  const [connection, setConnection] = useState(null);
+  const [joinGame, setJoinGame] = useState(false);
   const [gameId, setGameId] = useState(null);
-  const [answer, setAnswer] = useState(null);
-  const [score, setScore] = useState(0);
+  const [hiddenAnswer, setHiddenAnswer] = useState("");
+  const [gameGuesses, setGameGuesses] = useState(null);
+  const [gameScore, setGameScore] = useState(null);
+  const [gameResult, setGameResult] = useState(null);
+
+  useEffect(() => {
+    if (gameId) {
+      const newConnection = new signalR.HubConnectionBuilder()
+        .withUrl("/gameHub")
+        .withAutomaticReconnect()
+        .build();
+
+      setConnection(newConnection);
+
+      newConnection
+        .start()
+        .then(() => {
+          console.log("SignalR Connected to Game");
+          setConnection(newConnection);
+
+          newConnection.invoke("AddToGroup", gameId);
+
+          newConnection.on(
+            "UpdateHiddenAnswer",
+            (newHiddenAnswer, newGuess) => {
+              setHiddenAnswer(newHiddenAnswer);
+              setGameGuesses(newGuess);
+            }
+          );
+
+          newConnection.on("ShowGameResults", (newGameScore, newGameResult) => {
+            setGameScore(newGameScore);
+            setGameResult(newGameResult);
+          });
+        })
+        .catch((err) => console.error(err));
+
+      return () => {
+        if (newConnection) {
+          newConnection.stop();
+        }
+      };
+    }
+  }, [gameId]);
 
   const startGame = async () => {
     try {
@@ -54,65 +90,47 @@ const Game = () => {
       });
 
       setGameId(response.data.gameId);
-      setAnswer(null);
+      setHiddenAnswer(response.data.hiddenAnswer);
     } catch (error) {
       console.error("Error: ", error);
     }
   };
 
-  const handleGuess = async (guess) => {
+  const handleJoinGame = async () => {
     try {
-      const accessToken = await authService.getAccessToken();
-      const headers = {
-        Authorization: `Bearer ${accessToken}`,
-      };
-      const response = await axios.get(
-        `/api/game/guessword/${gameId}/${guess}`,
-        {
-          headers: headers,
-        }
-      );
-
-      setAnswer(response.data.correct);
-    } catch (error) {
-      console.error("Error: ", error);
-    }
+    } catch {}
   };
 
-  const handleScore = async (e) => {
-    e.preventDefault();
-
-    try {
-      const accessToken = await authService.getAccessToken();
-
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      };
-
-      const data = { score: score };
-
-      const response = await axios.post("/api/score/postuserscore", data, {
-        headers: headers,
-      });
-    } catch (error) {
-      console.error("An error occurred", error);
-    }
+  const makeGuess = (guess) => {
+    connection.invoke("MakeGuess", gameId, guess).catch((error) => {
+      console.error("Error making a guess:", error);
+    });
   };
 
   return (
     <Main>
       <div className="GameWindow">
-        <div className="GameMenu">
-          <button onClick={startGame}>New Game</button>
-        </div>
-        <div>
-          <h2>Guess the Word!</h2>
-          {answer !== null && (
-            <p>{answer ? "Correct guess!" : "Incorrect guess!"}</p>
-          )}
-        </div>
-        <GuessForm onGuess={handleGuess} />
+        {gameId === null ? (
+          <MainMenu
+            joinGame={joinGame}
+            setJoinGame={setJoinGame}
+            handleJoinGame={handleJoinGame}
+            startGame={startGame}
+          />
+        ) : (
+          <>
+            <GameStart
+              setGameId={setGameId}
+              setJoinGame={setJoinGame}
+              gameId={gameId}
+              hiddenAnswer={hiddenAnswer}
+              makeGuess={makeGuess}
+              gameGuesses={gameGuesses}
+              gameScore={gameScore}
+              gameResult={gameResult}
+            />
+          </>
+        )}
       </div>
     </Main>
   );

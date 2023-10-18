@@ -3,16 +3,15 @@ import Game from "./Game";
 import Chat from "./Chat";
 
 const Main = Styled.div`
-display:flex;
-flex-direction:row;
-justify-content: space-between;
+  display: flex;
+  background: #f2f2f2;
 `;
 
 const Play = () => {
   return (
     <Main>
-       <Game />
-       <Chat />
+      <Game />
+      <Chat />
     </Main>
   );
 };
