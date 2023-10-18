@@ -23,33 +23,31 @@ namespace SPAGame.Controllers
             _logger = logger;
         }
 
-        [HttpGet("gettag")]
+        [HttpGet("getuser")]
         [Authorize]
-        public async Task<IActionResult> GetGamerTag()
+        public UserViewModel GetUserInfo()
         {
             try
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
+                var user = _userManager.Users.FirstOrDefault(x => x.Id == userId);
                 if (userId == null)
                 {
-                    return BadRequest("User not found.");
+                    throw new Exception("No user");
                 }
-
-                var user = await _userManager.FindByIdAsync(userId);
-
-                if (user == null)
+                var userInfo = new UserViewModel()
                 {
-                    return BadRequest("User not found.");
-                }
-
-                return Ok(new { GamerTag = user.GamerTag });
+                    UserName = user.UserName,
+                    Description = user.Description,
+                    GamerTag = user.GamerTag,
+                    //Score = user.Score,
+                };
+                return userInfo;
             }
             catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while processing the request.");
+            { 
 
-                return StatusCode(500, "Internal Server Error");
+                throw new Exception("Error" , ex);
             }
         }
     }
