@@ -2,7 +2,6 @@ import styled from "styled-components";
 import GuessForm from "./GuessForm";
 
 const Main = styled.div`
-  height: 100%;
   width: 100%;
   background: linear-gradient(
     45deg,
@@ -12,8 +11,10 @@ const Main = styled.div`
   );
 
   & .GameMenu {
+    height: 6%;
+    padding-left: 1rem;
     display: flex;
-    padding: 0.5rem;
+    align-items: center;
     background: #000;
     color: #f2f2f2;
 
@@ -24,13 +25,17 @@ const Main = styled.div`
   }
 
   & .Game {
-    margin: 2rem;
+    height: 94%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 
     & h2 {
       color: #f2f2f2;
     }
 
     & .GameChild {
+      text-align: center;
     }
 
     & .HiddenAnswer {

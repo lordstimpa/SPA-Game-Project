@@ -22,6 +22,10 @@ const Main = styled.div`
     border: 5px solid #000;
     border-radius: 1rem;
     overflow: hidden;
+
+    & > * {
+      height: 100%;
+    }
   }
 `;
 
@@ -45,6 +49,8 @@ const Game = () => {
         .then(() => {
           console.log("SignalR Connected");
           setConnection(newConnection);
+
+          newConnection.invoke("AddToGroup", gameId);
 
           newConnection.on("UpdateHiddenAnswer", (newHiddenAnswer) => {
             console.log("Received new hidden answer:", newHiddenAnswer);

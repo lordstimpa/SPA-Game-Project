@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SPAGame.Data;
 using SPAGame.Models;
 using SPAGame.Models.ViewModels;
+using System.Security.Claims;
 using System.Text.RegularExpressions;
 
 namespace SPAGame.Controllers
@@ -27,6 +28,7 @@ namespace SPAGame.Controllers
         {
             string publicId = Guid.NewGuid().ToString();
             string hiddenAnswer = "";
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             string filePath = Path.Combine(_hostingEnvironment.ContentRootPath, "Data", "GameTitles.json");
 
@@ -46,6 +48,7 @@ namespace SPAGame.Controllers
                     _context.Add(new GameModel
                     {
                         PublicId = publicId,
+                        UserId = userId,
                         Answer = fixedAnswer,
                         HiddenAnswer = hiddenAnswer,
                     });

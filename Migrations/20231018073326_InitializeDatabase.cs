@@ -70,21 +70,6 @@ namespace SPAGame.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Game",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Answer = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    HiddenAnswer = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Game", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Keys",
                 columns: table => new
                 {
@@ -229,19 +214,22 @@ namespace SPAGame.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Score",
+                name: "Game",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Score = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Answer = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HiddenAnswer = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Score = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Score", x => x.Id);
+                    table.PrimaryKey("PK_Game", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Score_AspNetUsers_UserId",
+                        name: "FK_Game_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
@@ -298,6 +286,11 @@ namespace SPAGame.Migrations
                 column: "Expiration");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Game_UserId",
+                table: "Game",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Keys_Use",
                 table: "Keys",
                 column: "Use");
@@ -321,11 +314,6 @@ namespace SPAGame.Migrations
                 name: "IX_PersistedGrants_SubjectId_SessionId_Type",
                 table: "PersistedGrants",
                 columns: new[] { "SubjectId", "SessionId", "Type" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Score_UserId",
-                table: "Score",
-                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -356,9 +344,6 @@ namespace SPAGame.Migrations
 
             migrationBuilder.DropTable(
                 name: "PersistedGrants");
-
-            migrationBuilder.DropTable(
-                name: "Score");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

@@ -12,7 +12,7 @@ using SPAGame.Data;
 namespace SPAGame.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231017040601_InitializeDatabase")]
+    [Migration("20231018073326_InitializeDatabase")]
     partial class InitializeDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -396,19 +396,6 @@ namespace SPAGame.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("Game");
-                });
-
-            modelBuilder.Entity("SPAGame.Models.ScoreModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
                     b.Property<int>("Score")
                         .HasColumnType("int");
 
@@ -419,7 +406,7 @@ namespace SPAGame.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Score");
+                    b.ToTable("Game");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -473,7 +460,7 @@ namespace SPAGame.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SPAGame.Models.ScoreModel", b =>
+            modelBuilder.Entity("SPAGame.Models.GameModel", b =>
                 {
                     b.HasOne("SPAGame.Models.ApplicationUser", "User")
                         .WithMany()
