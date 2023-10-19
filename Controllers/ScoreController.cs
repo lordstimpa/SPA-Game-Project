@@ -5,6 +5,7 @@ using SPAGame.Data;
 using SPAGame.Models;
 using SPAGame.Models.ViewModels;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 
 namespace SPAGame.Controllers
 {
@@ -26,20 +27,18 @@ namespace SPAGame.Controllers
         [HttpGet("gettoptenoverall")]
         public List<ScoreViewModel> GetTopTenOverallScore()
         {
-            var games = _context.Game
-                .Join(_context.Users,
-                    game => game.UserId,
-                    user => user.Id,
-                    (game, user) => new ScoreViewModel
-                    {
-                        GamerTag = user.GamerTag,
-                        Score = game.Score
-                    })
-                .OrderByDescending(game => game.Score)
+            var topTenOverallScores = _context.Game
+                .GroupBy(game => game.UserId)
+                .Select(group => new ScoreViewModel
+                {
+                    GamerTag = group.First().User.GamerTag,
+                    Score = group.Sum(game => game.Score)
+                })
+                .OrderByDescending(score => score.Score)
                 .Take(10)
                 .ToList();
 
-            return games;
+            return topTenOverallScores;
         }
 
         [HttpGet("gettoptenuser/{userId}")]
