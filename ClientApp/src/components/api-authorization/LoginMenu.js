@@ -56,7 +56,7 @@ export class LoginMenu extends Component {
   authenticatedView(userName, profilePath, logoutPath, logoutState) {
     return (
       <>
-        <NavLink tag={Link} className="Link" id="Profile" to={profilePath}>
+        <NavLink tag={Link} className="Link" id="Profile" to="/Profile">
           {userName}
         </NavLink>
         <NavLink
