@@ -8,6 +8,10 @@ const Main = Styled.div`
   justify-content: center;
   background: #f2f2f2;
 
+  & h2, h3, h4 {
+    font-family: "Press Start 2P", sans-serif;
+  }
+
   & .Text, .Board {
     border: 4px solid #000;
     width: 100%;
@@ -16,10 +20,6 @@ const Main = Styled.div`
     padding: 2rem;
     border-radius: 1rem;
     box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
-
-    & h3 {
-      margin-bottom: 2rem;
-    }
 
     & p {
       margin: 0 1rem 1rem 1rem;
@@ -33,23 +33,21 @@ const Main = Styled.div`
     padding: 2rem 3rem;
 
     & h2 {
-      color: #000;
-      font-size: 3rem;
+      font-size: 2.5rem;
       text-align: center;
+      margin: 2rem;
     }
 
     & h4 {
-      color: #000;
+      font-size: 1.1rem;
       margin-bottom: 1rem;
     }
     
     & div {
-      border-bottom: 1px solid rgba(242,242,242, 0.3);
-      padding: 1rem 0;
-    }
-
-    & div:last-of-type {
-      border: none;
+      border-radius: 1rem;
+      margin: 1rem;
+      padding: 2rem;
+      background: rgba(0,0,0, 0.3);
     }
   }
 
@@ -60,13 +58,18 @@ const Main = Styled.div`
 
     & h2 {
       text-align: center;
-      color: #000;
-      font-size: 2rem;
+      font-size: 1.7rem;
       margin-bottom: 2rem;
     }
 
+    & ol {
+      border-radius: 1rem;
+      padding: 1rem 4rem 1rem 4rem;
+      background: rgba(0,0,0, 0.3);
+    }
+
     & li {
-      padding: 1rem 0;
+      padding: 1rem 0.5rem;
     }
   }
 `;
@@ -93,7 +96,7 @@ const Home = () => {
           </p>
         </div>
         <div>
-          <h4>Key Features</h4>
+          <h4>Key Features:</h4>
           <ol>
             <li>
               <strong>User Registration and Login: </strong>Create your SPAG
