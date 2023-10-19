@@ -14,7 +14,7 @@ const context = [
   "/connect",
   "/ApplyDatabaseMigrations",
   "/_framework",
-  "/api/",
+  "/api",
   "/chatHub",
   "/gameHub",
 ];
