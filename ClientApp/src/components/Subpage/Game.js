@@ -20,7 +20,7 @@ const Main = styled.div`
     flex-direction: column;
     align-items: center;
     margin: 4rem 2rem;
-    border: 5px solid #000;
+    border: 4px solid #000;
     border-radius: 1rem;
     overflow: hidden;
 
@@ -96,6 +96,16 @@ const Game = () => {
     }
   };
 
+  const resetGame = () => {
+    setConnection(null);
+    setJoinGame(false);
+    setGameId(null);
+    setHiddenAnswer("");
+    setGameGuesses(null);
+    setGameScore(null);
+    setGameResult(null);
+  };
+
   const handleJoinGame = async () => {
     try {
     } catch {}
@@ -120,7 +130,7 @@ const Game = () => {
         ) : (
           <>
             <GameStart
-              setGameId={setGameId}
+              resetGame={resetGame}
               setJoinGame={setJoinGame}
               gameId={gameId}
               hiddenAnswer={hiddenAnswer}

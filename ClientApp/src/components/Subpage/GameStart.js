@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import GuessForm from "./GuessForm";
+import HangMan from "../../img/hangman.png";
 
 const Main = styled.div`
   width: 100%;
   background: linear-gradient(
     45deg,
     rgba(7, 0, 120, 1) 0%,
-    rgba(76, 42, 213, 1) 50%,
-    rgba(0, 212, 255, 1) 100%
+    rgba(93, 42, 213, 1) 50%,
+    rgba(59, 0, 255, 1) 100%
   );
 
   & .GameMenu {
@@ -38,6 +39,11 @@ const Main = styled.div`
 
     & .GameChild {
       text-align: center;
+
+      & img {
+        width: 250px;
+        margin: 2rem;
+      }
     }
 
     & .HiddenAnswer {
@@ -54,6 +60,7 @@ const Main = styled.div`
 
     & h2 {
       font-size: 3rem;
+      margin-bottom: 3rem;
     }
 
     & p {
@@ -72,7 +79,7 @@ const Main = styled.div`
 `;
 
 function GameStart({
-  setGameId,
+  resetGame,
   gameId,
   hiddenAnswer,
   makeGuess,
@@ -87,14 +94,17 @@ function GameStart({
       </div>
       <div className="Game">
         <div className="GameChild">
+          <img src={HangMan}></img>
+        </div>
+        <div className="GameChild">
           <h2 className="HiddenAnswer">{hiddenAnswer}</h2>
         </div>
         {gameResult !== null ? (
           <div className="ResultsContainer">
-            <h2>{gameResult ? "You WIN! :D" : "You LOST! :("}</h2>
+            <h2>{gameResult ? "You Win! :D" : "You Lost! :("}</h2>
             <p>Score: {gameScore}</p>
             <p>Wrong guesses: {gameGuesses}</p>
-            <button onClick={() => setGameId(null)}>Back to Menu</button>
+            <button onClick={() => resetGame()}>Back to Menu</button>
           </div>
         ) : (
           <GuessForm makeGuess={makeGuess} />
