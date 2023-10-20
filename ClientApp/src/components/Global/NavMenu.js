@@ -1,4 +1,6 @@
-import React, { Component } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import authService from "../api-authorization/AuthorizeService";
 import Styled from "styled-components";
 import { Link } from "react-router-dom";
 import { LoginMenu } from "../api-authorization/LoginMenu";
@@ -70,42 +72,47 @@ const Main = Styled.div`
   }
 `;
 
-export class NavMenu extends Component {
-  static displayName = NavMenu.name;
+const NavMenu = () => {
+  const [userLogggedIn, setUserLoggedIn] = useState(false);
 
-  constructor(props) {
-    super(props);
-
-    this.toggleNavbar = this.toggleNavbar.bind(this);
-    this.state = {
-      collapsed: true,
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const accessToken = await authService.getAccessToken();
+        const headers = {
+          Authorization: `Bearer ${accessToken}`,
+        };
+        const response = await axios.get("/api/user/userloggedin", {
+          headers: headers,
+        });
+        setUserLoggedIn(response.data);
+      } catch (error) {
+        console.error("Error fetching loggin status:", error);
+      }
     };
-  }
 
-  toggleNavbar() {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
-  }
+    fetchData();
+  }, []);
 
-  render() {
-    return (
-      <Main>
-        <div className="Banner"></div>
-        <div className="Nav">
-          <div className="HomeMenu">
-            <Link to="/" className="Link" id="Home">
-              Home
-            </Link>
+  return (
+    <Main>
+      <div className="Banner"></div>
+      <div className="Nav">
+        <div className="HomeMenu">
+          <Link to="/" className="Link" id="Home">
+            Home
+          </Link>
+          {userLogggedIn === true && (
             <Link to="/Play" className="Link">
               Play
             </Link>
-          </div>
-          <div className="LoginMenu">
-            <LoginMenu className="Link" />
-          </div>
+          )}
         </div>
-      </Main>
-    );
-  }
-}
+        <div className="LoginMenu">
+          <LoginMenu className="Link" />
+        </div>
+      </div>
+    </Main>
+  );
+};
+export default NavMenu;
