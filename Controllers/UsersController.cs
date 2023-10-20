@@ -61,5 +61,27 @@ namespace SPAGame.Controllers
                 throw new Exception("Error" , ex);
             }
         }
+
+        [HttpGet("userloggedin")]
+        public bool CheckLoggedIn()
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                if (userId == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
