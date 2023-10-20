@@ -3,6 +3,7 @@ import Home from "./components/Homepage/Home";
 import Play from "./components/Subpage/Play";
 import { Login } from "./components/Subpage/Login";
 import { Register } from "./components/Subpage/Register";
+import Profile from "./components/Subpage/Profile";
 
 const AppRoutes = [
   {
@@ -20,6 +21,10 @@ const AppRoutes = [
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
   },
   ...ApiAuthorzationRoutes,
 ];

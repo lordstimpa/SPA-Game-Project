@@ -10,6 +10,7 @@ namespace SPAGame.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -24,23 +25,33 @@ namespace SPAGame.Controllers
         }
 
         [HttpGet("getuser")]
-        [Authorize]
         public UserViewModel GetUserInfo()
         {
             try
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 var user = _userManager.Users.FirstOrDefault(x => x.Id == userId);
+
+                var games = _context.Game.Where(game => game.UserId == userId).ToList();
+                int totalScore = 0;
+
+                foreach (var game in games)
+                {
+                    totalScore += game.Score;
+                }
+
                 if (userId == null)
                 {
-                    throw new Exception("No user");
+                    throw new Exception("Error fetching User");
                 }
+
                 var userInfo = new UserViewModel()
                 {
                     UserName = user.UserName,
                     Description = user.Description,
                     GamerTag = user.GamerTag,
-                    //Score = user.Score,
+                    Score = totalScore,
+                    GamesPlayed = games.Count(),
                 };
                 return userInfo;
             }
