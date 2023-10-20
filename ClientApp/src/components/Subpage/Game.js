@@ -21,7 +21,7 @@ const Main = styled.div`
     align-items: center;
     margin: 4rem 2rem;
     border: 4px solid #000;
-    border-radius: 1rem;
+    border-radius: 0.25rem;
     overflow: hidden;
 
     & > * {
