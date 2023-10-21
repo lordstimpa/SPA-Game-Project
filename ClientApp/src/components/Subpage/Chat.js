@@ -7,7 +7,7 @@ import authService from "../api-authorization/AuthorizeService";
 const Main = Styled.div`
   width: 35%;
   min-height: 60svh;
-  justify-content: center;
+  max-height: 80svh;
   
   & h2 {
       font-family: 'Pixelify Sans', sans-serif;
@@ -22,16 +22,15 @@ const Main = Styled.div`
     }
     
     & .Board {
+        height:800px;
     display:flex;
     flex-start:left;
     flex-direction:column;
-    justify-content:center;
     margin: 2rem;
     margin-top: 0rem;
     padding: 1.5rem;
-    border-radius: 0.5rem;
+    border-radius: 0.25rem;
     border: 2px solid #000;
-    overflow: hidden;
 
     & p {
         padding: 0.2rem 0.5rem;
@@ -46,9 +45,13 @@ const Main = Styled.div`
 
       li {
         padding: 0.5rem;
-        border-bottom: 1px solid #ccc; /* Add a thin line as a bottom border */
+        border-bottom: 1px solid #ccc; 
         
       }
+    }
+    & .p-2 {
+        height:100%;
+        overflow-y:scroll;
     }
   }
 `;
@@ -127,7 +130,7 @@ const Chat = () => {
                     <hr />
                 </div>
             </div>
-            <div className="p-1">
+            <div className="p-2">
                 <div className="message">
                     <ul>
                         {messages.map((msg, index) => (
