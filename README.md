@@ -4,11 +4,11 @@
 
 <div style="display: flex; justify-content: space-evenly; text-align: center;">
   <div>
-    <img style="height:auto; border-radius: 50%;" alt="" src="https://avatars.githubusercontent.com/u/115810719?v=4" width="100" height="100" class="avatar avatar-user width-full border color-bg-default">
+    <img style="height:auto; border-radius: 50;" alt="" src="https://avatars.githubusercontent.com/u/115810719?v=4" width="100" height="100" class="avatar avatar-user width-full border color-bg-default">
     <p><a href="https://github.com/L-stal">Leo Stålenhag</a></p>
   </div>
   <div>
-    <img style="height:auto; border-radius: 50%;" alt="View lordstimpa's full-sized avatar" src="https://avatars.githubusercontent.com/u/97369216?v=4" width="100" height="100" class="avatar avatar-user width-full border color-bg-default">
+    <img style="height:auto; border-radius: 50;" alt="View lordstimpa's full-sized avatar" src="https://avatars.githubusercontent.com/u/97369216?v=4" width="100" height="100" class="avatar avatar-user width-full border color-bg-default">
     <p><a href="https://github.com/lordstimpa">Steven Dalfall</a></p>
   </div>
 </div>
@@ -79,13 +79,13 @@ public GameViewModel StartGame()
 ### Homepage:
 
 <picture>
-<img width="600" alt="Container diagram." src="../SPA-Game-Project/.github/img/homepage.png">
+<img width="600" alt="Container diagram." src="../SPA-Game-Project/github/img/homepage.png">
 </picture>
 
 ### Game:
 
 <picture>
-<img width="600" alt="Container diagram." src="../SPA-Game-Project/.github/img/game.png">
+<img width="600" alt="Container diagram." src="../SPA-Game-Project/github/img/game.png">
 </picture>
 
 ## Reflection
