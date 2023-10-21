@@ -4,18 +4,18 @@
 
 <div style="display: flex; justify-content: space-evenly; text-align: center;">
   <div>
-    <img style="height:auto; border-radius: 50%;" alt="" src="https://avatars.githubusercontent.com/u/115810719?v=4" width="100" height="100" class="avatar avatar-user width-full border color-bg-default">
+    <img style="height:auto; border-radius: 50;" alt="" src="https://avatars.githubusercontent.com/u/115810719?v=4" width="100" height="100" class="avatar avatar-user width-full border color-bg-default">
     <p><a href="https://github.com/L-stal">Leo Stålenhag</a></p>
   </div>
   <div>
-    <img style="height:auto; border-radius: 50%;" alt="View lordstimpa's full-sized avatar" src="https://avatars.githubusercontent.com/u/97369216?v=4" width="100" height="100" class="avatar avatar-user width-full border color-bg-default">
+    <img style="height:auto; border-radius: 50;" alt="View lordstimpa's full-sized avatar" src="https://avatars.githubusercontent.com/u/97369216?v=4" width="100" height="100" class="avatar avatar-user width-full border color-bg-default">
     <p><a href="https://github.com/lordstimpa">Steven Dalfall</a></p>
   </div>
 </div>
 
 ## Overview
 
-This is a project made by using ASP.NET Core with React and Identity authentication. We are also using SignalR for real-time updates in various functionality such as our global chat and in our game logic.
+This project was made using ASP.NET Core with React and Identity authentication. We are also using SignalR for real-time updates in various functionality such as our global chat and in our game logic.
 
 As a user, you are able to register an account and chat with all of the users in our global chat while playing "Hangman" which is a word-guessing game.
 
@@ -23,7 +23,7 @@ Each user that performs well will be displayed on the global top 10 leaderboard 
 
 ## Code
 
-We have created a lot of API endpoints and SignalR hubs for setting up a great gaming envoirnment for each user. This was crucial for make the chat and game work well together.
+We have created a lot of API endpoints and SignalR hubs for setting up a great gaming environment for each user. This was crucial for making the chat and game work well together.
 
 ### This is our API end-point for starting a game session:
 
@@ -92,15 +92,15 @@ public GameViewModel StartGame()
 
 #### Start of the project
 
-This project was a challenge for us with the main reason of using new technologies such as SignalR and Identity Authentication.
+This project was a challenge for us with the main reason for using new technologies such as SignalR and Identity Authentication.
 
-We upheld a high intensity in our development process because we had high goals when delving into this project. Initially we had planned to create a multiplayer game but we had to adapt to the time-frame of the project. Instead we created a single-player game that consist of a global-chat and leaderboard.
+We upheld a high intensity in our development process because we had high goals when delving into this project. Initially, we had planned to create a multiplayer game but we had to adapt to the time-frame of the project. Instead, we created a single-player game that consist of a global chat and leaderboard.
 
 #### Workflow
 
-- We had continous daily stand-ups during the entire development process
+- We had continuous daily stand-ups during the entire development process
 - We created a fitting Kanban board for our team which we updated weekly
-- In the start of our project we did a lot of pair-programming, as we had created a lot of different functionalites we had to work more individually
+- At the start of our project we did a lot of pair programming, as we had created a lot of different functionalities we had to work more individually
 - If we had any obstacles then we slammed our heads together and worked it through as a team
 
 #### Improvements
