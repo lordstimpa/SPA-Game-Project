@@ -1,4 +1,6 @@
 import Styled from "styled-components";
+import { useEffect, useState } from "react";
+import { HubConnectionBuilder } from "@microsoft/signalr";
 import API from "../Global/API";
 
 const Main = Styled.div`
@@ -72,14 +74,16 @@ const Main = Styled.div`
       padding: 1rem 0.5rem;
     }
   }
+
+  & .Modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+  }
 `;
 
 const Home = () => {
-  const {
-    data: scores,
-    isError,
-    isLoading,
-  } = API("/api/score/gettoptenoverall");
+  const { isLoading, isError, data: data } = API("/api/score/gettoptenoverall");
 
   return (
     <Main>
@@ -174,9 +178,9 @@ const Home = () => {
         <h2>Leaderboard</h2>
         {isLoading && <p>Loading...</p>}
         {isError && <p>Error loading data</p>}
-        {scores && (
+        {data && (
           <ol>
-            {scores.map((entry, index) => (
+            {data.map((entry, index) => (
               <li key={index}>
                 {entry.gamerTag}: {entry.score} points
               </li>

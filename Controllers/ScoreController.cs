@@ -15,13 +15,11 @@ namespace SPAGame.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ILogger<ScoreController> _logger;
 
-        public ScoreController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, ILogger<ScoreController> logger)
+        public ScoreController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
-            _logger = logger;
         }
 
         [HttpGet("gettoptenoverall")]
@@ -39,22 +37,6 @@ namespace SPAGame.Controllers
                 .ToList();
 
             return topTenOverallScores;
-        }
-
-        [HttpGet("gettoptenuser/{userId}")]
-        public List<ScoreViewModel> GetTopTenUserScore(string userId)
-        {
-            var games = _context.Game
-                .Where(game => game.UserId == userId)
-                .OrderByDescending(game => game.Score)
-                .Select(game => new ScoreViewModel
-                {
-                    Score = game.Score,
-                })
-                .Take(10)
-                .ToList();
-
-            return games;
         }
     }
 }
