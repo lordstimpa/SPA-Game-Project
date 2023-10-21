@@ -23,7 +23,7 @@ Each user that performs well will be displayed on the global top 10 leaderboard 
 
 ## Code
 
-We have created a lot of API endpoints and SignalR hubs for setting up a great gaming envoirnment for each user. This was crucial for make the chat and game work well together.
+We have created a lot of API endpoints and SignalR hubs for setting up a great gaming environment for each user. This was crucial for making the chat and game work well together.
 
 ### This is our API end-point for starting a game session:
 
@@ -94,20 +94,20 @@ public GameViewModel StartGame()
 
 This project was a challenge for us with the main reason of using new technologies such as SignalR and Identity Authentication.
 
-We upheld a high intensity in our development process because we had high goals when delving into this project. Initially we had planned to create a multiplayer game but we had to adapt to the time-frame of the project. Instead we created a single-player game that consist of a global-chat and leaderboard.
+We upheld a high intensity in our development process because we had high goals when delving into this project. Initially, we had planned to create a multiplayer game but we had to adapt to the time frame of the project. Instead, we created a single-player game that consist of a global chat and leaderboard.
 
 #### Workflow
 
-- We had continous daily stand-ups during the entire development process
+- We had continuous daily stand-ups during the entire development process
 - We created a fitting Kanban board for our team which we updated weekly
-- In the start of our project we did a lot of pair-programming, as we had created a lot of different functionalites we had to work more individually
+- At the start of our project we did a lot of pair programming, as we had created a lot of different functionalities we had to work more individually
 - If we had any obstacles then we slammed our heads together and worked it through as a team
 
 #### Improvements
 
 We made a major mistake in trying to use technologies in an advanced setting without having enough knowledge about why's and how's.
 
-What we should have done was to study the documentation and compare other developers code to get a good grip on the fundamentals of the technology.
+What we should have done was to study the documentation and compare other developer's code to get a good grip on the fundamentals of the technology.
 
 ## Tools
 
