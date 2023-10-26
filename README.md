@@ -5,7 +5,7 @@
   <img src = "https://contrib.rocks/image?repo=lordstimpa/SPA-Game-Project"/>
 </a>
 
-[Steven Daggerfall](https://www.github.com/lordstimpa) | [Leo Stålenhag](https://www.github.com/L-stal) 
+[Steven Dalfall](https://www.github.com/lordstimpa) | [Leo Stålenhag](https://www.github.com/L-stal) 
 
 ## Overview
 
